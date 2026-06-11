@@ -5,26 +5,45 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RICKEY STORE | Premium Gaming & Diamond Hub</title>
   <link rel="stylesheet" href="css/style.css">
-  <!-- Google Fonts for Premium Look -->
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
-  <!-- Premium Glassmorphism Header / Navigation Bar -->
+  <!-- Premium Navigation Bar with Hamburger Icon -->
   <header>
-    <div class="logo">RICKEY<span>STORE</span></div>
-    <nav>
-      <ul>
-        <li><a href="#" class="nav-link active" onclick="filterCategory('all', this)">All Stores</a></li>
-        <li><a href="#" class="nav-link" onclick="filterCategory('freefire', this)">Free Fire Accounts</a></li>
-        <li><a href="#" class="nav-link" onclick="filterCategory('youtube', this)">YouTube Channels</a></li>
-        <li><a href="#" class="nav-link" onclick="filterCategory('tiktok', this)">TikTok Profiles</a></li>
-        <li><a href="#" class="nav-link diamond-btn" onclick="filterCategory('diamonds', this)">💎 Diamond Store</a></li>
-      </ul>
-    </nav>
+    <div class="header-left">
+      <!-- Hamburger Menu Icon (Iri Kali 3) -->
+      <div class="menu-toggle" onclick="toggleSidebar()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="logo">RICKEY<span>STORE</span></div>
+    </div>
+    <div class="header-right">
+      <span class="status-badge">🟢 Online Delivery Active</span>
+    </div>
   </header>
 
-  <!-- Hero Promotional Section -->
+  <!-- Side Sliding Navigation Drawer / Sidebar Box -->
+  <div id="sidebar" class="sidebar">
+    <div class="sidebar-header">
+      <h3>Select Store Category</h3>
+      <button class="close-btn" onclick="toggleSidebar()">&times;</button>
+    </div>
+    <ul class="sidebar-links">
+      <li><a href="#" class="nav-link active" onclick="selectCategory('all', this)">All Stores Layout</a></li>
+      <li><a href="#" class="nav-link" onclick="selectCategory('freefire', this)">Free Fire Accounts</a></li>
+      <li><a href="#" class="nav-link" onclick="selectCategory('youtube', this)">YouTube Channels</a></li>
+      <li><a href="#" class="nav-link" onclick="selectCategory('tiktok', this)">TikTok Profiles</a></li>
+      <li><a href="#" class="nav-link diamond-link" onclick="selectCategory('diamonds', this)">💎 Diamond Store</a></li>
+    </ul>
+  </div>
+
+  <!-- Dim/Blur Overlay when Sidebar is active -->
+  <div id="sidebar-overlay" class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+  <!-- Hero Promotional Banner Section -->
   <section class="hero">
     <div class="hero-content">
       <h1>Elevate Your Gaming & Digital Presence</h1>
