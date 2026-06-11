@@ -52,26 +52,45 @@ function renderGrid(items) {
   
   items.forEach(item => {
     const isDiamond = item.category === 'diamonds';
+    const isSold = item.status === 'sold'; // Sold Out ද නැද්ද කියා බලනවා
+    
     const card = document.createElement("div");
     card.className = `card ${isDiamond ? 'diamond-card' : ''}`;
-    
-    let metaHTML = '';
-    if (item.category === 'freefire') metaHTML = `<span>Lv: <strong>${item.level || 0}</strong></span> <span>Skins: <strong>${item.skins || 'N/A'}</strong></span>`;
-    else if (item.category === 'youtube') metaHTML = `<span>Subs: <strong>${item.subscribers || '0'}</strong></span>`;
-    else if (item.category === 'tiktok') metaHTML = `<span>Followers: <strong>${item.followers || '0'}</strong></span>`;
-    else if (item.category === 'diamonds') metaHTML = `<span>Count: <strong>💎 ${item.diamondCount || item.title}</strong></span>`;
+    if (isSold) card.style.opacity = "0.65"; // Sold Out නම් කාඩ් එක ලාවට අඳුරු කරනවා
 
+    let metaHTML = '';
+    if (item.category === 'freefire') {
+      metaHTML = `<span>Lv: <strong>${item.level || 0}</strong></span> <span>Skins: <strong>${item.skins || 'N/A'}</strong></span>`;
+    } else if (item.category === 'youtube') {
+      metaHTML = `<span>Subs: <strong>${item.subscribers || '0'}</strong></span>`;
+    } else if (item.category === 'tiktok') {
+      metaHTML = `<span>Followers: <strong>${item.followers || '0'}</strong></span>`;
+    } else if (item.category === 'diamonds') {
+      metaHTML = `<span>Count: <strong>💎 ${item.diamondCount || item.title}</strong></span>`;
+    }
+
+    // Sold Out නම් බටන් එක වෙනස් කරනවා
+    const buttonHTML = isSold 
+      ? `<button class="buy-btn" style="background:#6c757d; cursor:not-allowed;" disabled>Sold Out</button>`
+      : `<button class="buy-btn" onclick="triggerCheckout('${item.title}', '${item._id}', ${item.price})">Buy Now</button>`;
+
+    // Sold Out ලේබල් එක සකස් කිරීම
+    const badgeHTML = isSold 
+      ? `<span class="category-badge" style="background:#dc3545; color:white;">SOLD OUT</span>`
+      : `<span class="category-badge">${item.category}</span>`;
+
+    // 📸 Cloudinary එකෙන් අප්ලෝඩ් කරපු ෆොටෝ එක මෙතනින් img src එකට automatic වැටෙනවා
     card.innerHTML = `
       <div class="card-img-wrapper">
-        <span class="category-badge">${item.category}</span>
-        <img src="${item.image}" alt="${item.title}">
+        ${badgeHTML}
+        <img src="${item.image}" alt="${item.title}" style="width:100%; height:100%; object-fit:cover;">
       </div>
       <div class="card-content">
         <h3>${item.title}</h3>
         <div class="meta-info">${metaHTML}</div>
         <div class="price-row">
           <div class="price">LKR ${item.price.toLocaleString()}</div>
-          <button class="buy-btn" onclick="triggerCheckout('${item.title}', '${item._id}', ${item.price})">Buy Now</button>
+          ${buttonHTML}
         </div>
       </div>
     `;
