@@ -1,0 +1,239 @@
+/* Global Reset & Theme Configurations */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #0d1117; /* Cool Slate/Dark Background */
+  color: #f0f6fc;
+  overflow-x: hidden;
+}
+
+/* Header & Navigation Menu Styling */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 8%;
+  background: rgba(22, 27, 34, 0.8);
+  backdrop-filter: blur(12px); /* Glassmorphism effect */
+  border-bottom: 1px solid rgba(240, 117, 43, 0.2);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.logo {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: #ffffff;
+}
+
+.logo span {
+  color: #ff6b35; /* Premium Orange Accent */
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: #c9d1d9;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  padding: 8px 16px;
+  border-radius: 6px;
+}
+
+nav ul li a:hover, nav ul li a.active {
+  color: #ff6b35;
+  background: rgba(255, 107, 53, 0.1);
+}
+
+/* Eye-Catching Highlighted Diamond Button */
+nav ul li a.diamond-btn {
+  background: linear-gradient(45deg, #00b4db, #0083b0);
+  color: #fff;
+  border-radius: 20px;
+  box-shadow: 0 4px 15px rgba(0, 180, 219, 0.4);
+}
+
+nav ul li a.diamond-btn:hover {
+  background: linear-gradient(45deg, #0083b0, #00b4db);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+/* Hero Section */
+.hero {
+  background: radial-gradient(circle at top, rgba(255, 107, 53, 0.15), transparent), #0d1117;
+  padding: 60px 8% 40px 8%;
+  text-align: center;
+}
+
+.hero h1 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 38px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  background: linear-gradient(90deg, #ffffff, #ff6b35);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero p {
+  color: #8b949e;
+  font-size: 16px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Grid and Premium Card Layouts */
+.store-container {
+  padding: 40px 8%;
+}
+
+.section-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 24px;
+  margin-bottom: 30px;
+  border-left: 4px solid #ff6b35;
+  padding-left: 12px;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+.card {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  position: relative;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  border-color: #ff6b35;
+  box-shadow: 0 10px 20px rgba(255, 107, 53, 0.1);
+}
+
+.card-img-wrapper {
+  width: 100%;
+  height: 180px;
+  background: #21262d;
+  position: relative;
+}
+
+.card-img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.category-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(13, 17, 23, 0.85);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.card-content {
+  padding: 20px;
+}
+
+.card-content h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #f0f6fc;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.meta-info {
+  display: flex;
+  gap: 15px;
+  font-size: 13px;
+  color: #8b949e;
+  margin-bottom: 15px;
+}
+
+.meta-info span strong {
+  color: #f0f6fc;
+}
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.price {
+  font-size: 20px;
+  font-weight: 700;
+  color: #58a6ff;
+}
+
+.buy-btn {
+  background: #ff6b35;
+  color: #ffffff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.buy-btn:hover {
+  background: #e0531f;
+}
+
+.diamond-card .buy-btn {
+  background: #0083b0;
+}
+.diamond-card .buy-btn:hover {
+  background: #00b4db;
+}
+.diamond-card .price {
+  color: #00b4db;
+}
+
+/* Footer styling */
+footer {
+  text-align: center;
+  padding: 40px;
+  margin-top: 60px;
+  border-top: 1px solid #30363d;
+  color: #8b949e;
+  font-size: 13px;
+}
+
+.loading {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px;
+  color: #8b949e;
+}

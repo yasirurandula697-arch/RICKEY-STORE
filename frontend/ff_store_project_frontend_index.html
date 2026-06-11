@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DEXTER STORE | Premium Gaming & Boosting Hub</title>
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Google Fonts for Premium Look -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Premium Glassmorphism Header / Navigation Bar -->
+  <header>
+    <div class="logo">DEXTER<span>STORE</span></div>
+    <nav>
+      <ul>
+        <li><a href="#" class="nav-link active" onclick="filterCategory('all', this)">All Stores</a></li>
+        <li><a href="#" class="nav-link" onclick="filterCategory('freefire', this)">Free Fire Accounts</a></li>
+        <li><a href="#" class="nav-link" onclick="filterCategory('youtube', this)">YouTube Channels</a></li>
+        <li><a href="#" class="nav-link" onclick="filterCategory('tiktok', this)">TikTok Profiles</a></li>
+        <li><a href="#" class="nav-link diamond-btn" onclick="filterCategory('diamonds', this)">💎 Diamond Store</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Hero Promotional Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Elevate Your Gaming & Digital Presence</h1>
+      <p>Lankawe Vishwasawanthama Account Store & Diamond Top-Up Partner. 100% Secured and Instant Delivery.</p>
+    </div>
+  </section>
+
+  <!-- Dynamic Product Showcase Container -->
+  <main class="store-container">
+    <h2 id="store-title" class="section-title">All Available Products</h2>
+    <div id="products-grid" class="products-grid">
+      <!-- Dynamic products will load via JavaScript -->
+      <div class="loading">Loading premium listings...</div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 DEXTER STORE. Powering Sri Lankan Gamers & Creators.</p>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
