@@ -154,11 +154,21 @@ function openProductModal(itemId) {
   const item = allFetchedItems.find(i => i._id === itemId);
   if (!item) return;
 
-  document.getElementById('modal-image').src = item.image;
-  document.getElementById('modal-title').innerText = item.title;
-  document.getElementById('modal-price').innerText = "LKR " + item.price.toLocaleString();
-  document.getElementById('modal-badge').innerText = item.category;
-  
+  const imgEl = document.getElementById('modal-image');
+if (imgEl) imgEl.src = item.image;
+
+// 💡 මෙන්න මේකයි ප්‍රධානම දේ! HTML එකේ මේ ID එක නැතත් දැන් කෝඩ් එක හිරවෙන්නේ නැහැ.
+const titleEl = document.getElementById('modal-title');
+if (titleEl) titleEl.innerText = item.title;
+
+const priceEl = document.getElementById('modal-price');
+if (priceEl) priceEl.innerText = "LKR " + item.price.toLocaleString();
+
+const badgeEl = document.getElementById('modal-badge');
+if (badgeEl) badgeEl.innerText = item.category;
+
+const descEl = document.getElementById('modal-description');
+if (descEl) descEl.innerText = item.description || "No description provided by seller.";
   document.getElementById('modal-description').innerText = item.description || "No description provided by seller.";
 
   const specsContainer = document.getElementById('modal-specs');
@@ -192,6 +202,9 @@ function openProductModal(itemId) {
     buyBtn.style.pointerEvents = "auto";
     
     // 📸 [සුපිරිම වෙනස්කම]: මැසේජ් එකේ අන්තිමට Photo එකේ Link එක ඔටෝමැටික් එකතු කරා මචං
+    const fullImageUrl = item.image.startsWith('http') 
+  ? item.image 
+  : `${window.location.origin}${item.image.startsWith('/') ? '' : '/'}${item.image}`;
     const message = `Hello RICKEY STORE,\n\nCAN I BUY THIS?\n\n📌 Product: ${item.title}\n🆔 Item ID: ${item._id}\n${whatsappDetails}\n💰 Price: LKR ${item.price.toLocaleString()}\n\n🖼️ Product Photo: ${item.image}`;
     buyBtn.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
   }
