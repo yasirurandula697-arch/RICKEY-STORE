@@ -2,10 +2,10 @@ const API_BASE_URL = window.location.origin.includes('localhost')
   ? 'http://localhost:5000/api/items' 
   : `${window.location.origin}/api/items`;
 
-const WHATSAPP_NUMBER = "94761305100"; // ⚠️ ඔයාගේ සැබෑ WhatsApp නම්බර් එක දාන්න මචං
+const WHATSAPP_NUMBER = "94783938367"; // ⚠️ ඔයාගේ සැබෑ WhatsApp නම්බර් එක දාන්න මචං
 
 const mockData = [
-  { _id: "ff1", title: "Free Fire Max Level 72 | Full Evo Gun Skins", category: "freefire", price: 8500, level: 72, skins: "6 Evo Max", description: "This is a premium account with rare emotes and maxed out guns.", image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=400" },
+  { _id: "ff1", title: "Free Fire Max Level 72 | Full Evo Gun Skins", category: "freefire", price: 8500, description: "This is a premium account with rare emotes and maxed out guns.", image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=400" },
   { _id: "yt1", title: "International Funny Compilation Channel (Monetized)", category: "youtube", price: 24000, subscribers: "12.4K", description: "Monetized channel, clean history, earning passive income from funny shorts.", image: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?q=80&w=400" },
   { _id: "tt1", title: "Gaming/Editz Viral TikTok Profile", category: "tiktok", price: 4500, followers: "25K", description: "High engagement profile, mostly Sri Lankan and global gaming audience.", image: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=400" },
   
@@ -97,8 +97,9 @@ function renderGrid(items) {
     card.style.cursor = 'pointer'; 
 
     let metaHTML = '';
+    // 💡 [වෙනස් කළා]: Free Fire කැටගරි එකේදී Lv සහ Skins කෑල්ල කාඩ් එකෙන් සම්පූර්ණයෙන්ම අයින් කරලා හිස් කළා මචං
     if (item.category === 'freefire') {
-      metaHTML = `<span>Lv: <strong>${item.level || 0}</strong></span> <span>Skins: <strong>${item.skins || 'N/A'}</strong></span>`;
+      metaHTML = `<span>Gaming Account</span>`;
     } else if (item.category === 'youtube') {
       metaHTML = `<span>Subs: <strong>${item.subscribers || '0'}</strong></span>`;
     } else if (item.category === 'tiktok') {
@@ -150,7 +151,6 @@ function selectCategory(category, element) {
   toggleSidebar();
 }
 
-// 🛍️ [අප්ඩේට් කළා]: WhatsApp මැසේජ් එක ඇතුළටම විස්තර ඔටෝ හැදෙන කෑල්ල
 function openProductModal(itemId) {
   const item = allFetchedItems.find(i => i._id === itemId);
   if (!item) return;
@@ -165,15 +165,12 @@ function openProductModal(itemId) {
   const specsContainer = document.getElementById('modal-specs');
   specsContainer.innerHTML = ''; 
 
-  // 📝 WhatsApp මැසේජ් එකට එකතු කරන්න අමතර විස්තර string එකක් හදාගන්නවා
   let whatsappDetails = '';
 
+  // 💡 [වෙනස් කළා]: Popup එක ඇතුළෙත් Specs Box එක Free Fire වලට ඕනෙ නැති නිසා සරල කරලා, WhatsApp යන මැසේජ් එකත් පිළිවෙල කලා
   if (item.category === 'freefire') {
-    specsContainer.innerHTML = `
-      <div><strong>Level:</strong> ${item.level || 'N/A'}</div>
-      <div><strong>Evo Skins:</strong> ${item.skins || 'None'}</div>
-    `;
-    whatsappDetails = `📊 Level: ${item.level || 'N/A'}\n🔥 Skins: ${item.skins || 'None'}`;
+    specsContainer.innerHTML = `<div><strong>Item:</strong> Premium Free Fire Gaming Account</div>`;
+    whatsappDetails = `🎮 Type: Free Fire Account`;
   } else if (item.category === 'youtube') {
     specsContainer.innerHTML = `<div><strong>Subscribers:</strong> ${item.subscribers || 'N/A'}</div>`;
     whatsappDetails = `🔴 Subscribers: ${item.subscribers || 'N/A'}`;
@@ -196,8 +193,7 @@ function openProductModal(itemId) {
     buyBtn.style.background = "#25d366";
     buyBtn.style.pointerEvents = "auto";
     
-    // 🔥 [සුපිරිම වෙනස්කම]: මැසේජ් එක ලස්සනට Format කරලා details ඔක්කොම එකතු කරා මචං
-    const message = `Hello RICKEY STORE,\n\nCAN I BUY THIS?\n\n📌 Product: ${item.title}\n🆔 Item ID: ${item._id}\n${whatsappDetails}\n💰 Price: LKR ${item.price.toLocaleString()}`;
+    const message = `Hello RICKEY STORE,\n\nMala meka madiwa ganna puluwanda?\n\n📌 Product: ${item.title}\n🆔 Item ID: ${item._id}\n${whatsappDetails}\n💰 Price: LKR ${item.price.toLocaleString()}`;
     buyBtn.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
   }
 
