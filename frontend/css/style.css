@@ -223,6 +223,18 @@ header {
   border-color: #007bff;
   box-shadow: 0 15px 30px rgba(0, 123, 255, 0.08); /* ලස්සන හෙවනැල්ලක් එනවා */
 }
+/* කාඩ් එක ඇතුළේ තියෙන Description එක පේළි 2කට සීමා කරලා ඉතිරි ටික තිත් තුනක් (...) කරන්න */
+.card-content p, .card-description {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;          /* 💡 මෙතනට දෙන ගණන අනුව පේළි ගණන තීරණය වෙනවා (පේළි 2යි) */
+  -webkit-box-orient: vertical;  
+  overflow: hidden;
+  text-overflow: ellipsis;        /* 💡 පේළි 2 ඉවර වුණාම අන්තිමට ... වදින්නේ මේකෙන් */
+  color: #666;                   /* ටෙක්ස්ට් එකේ පාට */
+  font-size: 0.9rem;             /* අකුරු වල ප්‍රමාණය */
+  margin-bottom: 12px;           /* පල්ලෙහායින් තියෙන මිල සහ බටන් එක අතර පරතරය */
+  line-height: 1.5;              /* පේළි අතර පරතරය */
+}
 
 .card-img-wrapper {
   width: 100%;
