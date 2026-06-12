@@ -2,16 +2,22 @@ const API_BASE_URL = window.location.origin.includes('localhost')
   ? 'http://localhost:5000/api/items' 
   : `${window.location.origin}/api/items`;
 
-const WHATSAPP_NUMBER = "94771234567"; // ⚠️ මෙතනට ඔයාගේ සැබෑ WhatsApp නම්බර් එක දාන්න මචං (94 වලින් පටන්ගන්න)
+const WHATSAPP_NUMBER = "94771234567"; // ⚠️ ඔයාගේ සැබෑ WhatsApp නම්බර් එක දාන්න මචං
 
+// 💡 [අප්ඩේට් කළා]: ඩයමන්ඩ් කාඩ්ස් ටික Weekly / Monthly Packs විදියට Mock Data වලටත් දැම්මා
 const mockData = [
   { _id: "ff1", title: "Free Fire Max Level 72 | Full Evo Gun Skins", category: "freefire", price: 8500, level: 72, skins: "6 Evo Max", description: "This is a premium account with rare emotes and maxed out guns.", image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=400" },
   { _id: "yt1", title: "International Funny Compilation Channel (Monetized)", category: "youtube", price: 24000, subscribers: "12.4K", description: "Monetized channel, clean history, earning passive income from funny shorts.", image: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?q=80&w=400" },
   { _id: "tt1", title: "Gaming/Editz Viral TikTok Profile", category: "tiktok", price: 4500, followers: "25K", description: "High engagement profile, mostly Sri Lankan and global gaming audience.", image: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=400" },
-  { _id: "dia1", title: "1080 + 108 Bonus Direct ID Top-Up", category: "diamonds", price: 2150, diamondCount: 1188, description: "Instant top-up within 5 minutes via Player ID. 100% safe.", image: "https://images.unsplash.com/photo-1561715276-a2d087060f1d?q=80&w=400" }
+  
+  // 💎 New Diamond Shop Memberships
+  { _id: "dia_wl", title: "Weekly Membership Lite", category: "diamonds", price: 350, diamondCount: "Weekly Lite", description: "Get instant rewards and daily diamonds with Weekly Lite membership.", image: "https://images.unsplash.com/photo-1561715276-a2d087060f1d?q=80&w=400" },
+  { _id: "dia_w", title: "Weekly Membership", category: "diamonds", price: 790, diamondCount: "Weekly Standard", description: "Standard Weekly Membership. Super fast activation via Player ID.", image: "https://images.unsplash.com/photo-1561715276-a2d087060f1d?q=80&w=400" },
+  { _id: "dia_vw", title: "VIP Weekly Membership", category: "diamonds", price: 1150, diamondCount: "VIP Weekly", description: "Premium VIP Weekly benefits. Level up your game instantly.", image: "https://images.unsplash.com/photo-1561715276-a2d087060f1d?q=80&w=400" },
+  { _id: "dia_m", title: "Monthly Membership", category: "diamonds", price: 2950, diamondCount: "Monthly Standard", description: "Massive diamond bundle across 30 days. Best value for money.", image: "https://images.unsplash.com/photo-1561715276-a2d087060f1d?q=80&w=400" },
+  { _id: "dia_vm", title: "VIP Monthly Membership", category: "diamonds", price: 4200, diamondCount: "VIP Monthly", description: "The ultimate Free Fire subscription. Maximum rewards guaranteed.", image: "https://images.unsplash.com/photo-1561715276-a2d087060f1d?q=80&w=400" }
 ];
 
-// 🌍 සර්වර් එකෙන් හෝ Mock ඩේටා වලින් එන ඔක්කොම බඩු ටික තියාගන්න global array එකක්
 let allFetchedItems = []; 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -43,11 +49,11 @@ async function fetchProducts(category = 'all') {
     if (!response.ok) throw new Error("Fallback execution trigger");
     const data = await response.json();
     
-    // 🔗 ආපු ඩේටා ටික ග්ලෝබල් ඇරේ එකට දාගන්නවා
+    // 🌍 සර්වර් එකෙන් එන ඩේටා ග්ලෝබල් ඇරේ එකට දානවා (Admin Panel එකෙන් දාන දේවල්)
     allFetchedItems = data.length ? data : mockData;
     renderGrid(data.length ? data : mockData.filter(i => category === 'all' || i.category === category));
   } catch (err) {
-    allFetchedItems = mockData; // Error එකක් ආවොත් mockData ටික දාගන්නවා
+    allFetchedItems = mockData; 
     const filtered = mockData.filter(item => category === 'all' || item.category === category);
     renderGrid(filtered);
   }
@@ -65,9 +71,8 @@ function renderGrid(items) {
     card.className = `card ${isDiamond ? 'diamond-card' : ''}`;
     if (isSold) card.style.opacity = "0.65";
 
-    // 💡 [වෙනස් කළා]: Card එක උඩ Click කරාම Popup එක ඇරෙන්න Function එක මෙතනට සෙට් කළා මචං
     card.setAttribute('onclick', `openProductModal('${item._id}')`);
-    card.style.cursor = 'pointer'; // Card එක උඩට mouse එක ගියාම click කරන්න පුළුවන් බව පෙන්වන්න
+    card.style.cursor = 'pointer'; 
 
     let metaHTML = '';
     if (item.category === 'freefire') {
@@ -77,10 +82,10 @@ function renderGrid(items) {
     } else if (item.category === 'tiktok') {
       metaHTML = `<span>Followers: <strong>${item.followers || '0'}</strong></span>`;
     } else if (item.category === 'diamonds') {
-      metaHTML = `<span>Count: <strong>💎 ${item.diamondCount || item.title}</strong></span>`;
+      // 💡 [වෙනස් කළා]: Admin Panel එකෙන් දාන Pack Type එක (Weekly/Monthly) මෙතනින් පේනවා
+      metaHTML = `<span>Type: <strong>💎 ${item.diamondCount || 'Membership'}</strong></span>`;
     }
 
-    // 💡 [වෙනස් කළා]: Buy Now බටන් එක එබුවාම කෙලින්ම popup එක ඇරෙන විදියට වෙනස් කළා (Sold Out නැත්නම්)
     const buttonHTML = isSold 
       ? `<button class="buy-btn" style="background:#6c757d; cursor:not-allowed;" disabled onclick="event.stopPropagation();">Sold Out</button>`
       : `<button class="buy-btn" onclick="event.stopPropagation(); openProductModal('${item._id}');">View Details</button>`;
@@ -124,21 +129,17 @@ function selectCategory(category, element) {
   toggleSidebar();
 }
 
-// 🛍️ [අලුතින් එකතු කළා]: Popup එක ඇරලා විස්තර සහ Description එක පුරවන සිරාම Function එක
 function openProductModal(itemId) {
   const item = allFetchedItems.find(i => i._id === itemId);
   if (!item) return;
 
-  // Modal එක ඇතුලේ තියෙන Elements වලට දත්ත දානවා
   document.getElementById('modal-image').src = item.image;
   document.getElementById('modal-title').innerText = item.title;
   document.getElementById('modal-price').innerText = "LKR " + item.price.toLocaleString();
   document.getElementById('modal-badge').innerText = item.category;
   
-  // 📝 Admin Panel එකෙන් දාපු Description එක මෙතනින් තමයි වදින්නේ මචං!
   document.getElementById('modal-description').innerText = item.description || "No description provided by seller.";
 
-  // Category එක අනුව Specs (Level/Skins) වෙනස් කරනවා
   const specsContainer = document.getElementById('modal-specs');
   specsContainer.innerHTML = ''; 
 
@@ -152,10 +153,10 @@ function openProductModal(itemId) {
   } else if (item.category === 'tiktok') {
     specsContainer.innerHTML = `<div><strong>Followers:</strong> ${item.followers || 'N/A'}</div>`;
   } else if (item.category === 'diamonds') {
-    specsContainer.innerHTML = `<div><strong>Pack Size:</strong> ${item.diamondCount || '0'} Diamonds</div>`;
+    // 💡 [වෙනස් කළා]: Popup එක ඇතුලෙත් Membership Type එක ලස්සනට වැටෙන්න හැදුවා
+    specsContainer.innerHTML = `<div><strong>Membership Type:</strong> ${item.diamondCount || 'Free Fire Pack'}</div>`;
   }
 
-  // Sold out ද නැද්ද කියලා බලලා WhatsApp බටන් එක සකස් කිරීම
   const buyBtn = document.getElementById('modal-buy-btn');
   if (item.status === 'sold') {
     buyBtn.innerText = "❌ Sold Out";
@@ -167,17 +168,14 @@ function openProductModal(itemId) {
     buyBtn.style.background = "#25d366";
     buyBtn.style.pointerEvents = "auto";
     
-    // WhatsApp එකට යන මැසේජ් එක සකස් කිරීම
     const message = `Hello RICKEY STORE,\n\nMala meka madiwa ganna puluwanda?\n\n📌 Product: ${item.title}\n🆔 Item ID: ${item._id}\n💰 Price: LKR ${item.price.toLocaleString()}`;
     buyBtn.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
   }
 
-  // Popup එක සහ Overlay එක Screen එකට පෙන්වනවා (Active කරනවා)
   document.getElementById('productModal').classList.add('active');
   document.getElementById('modal-overlay').classList.add('active');
 }
 
-// ❌ [අලුතින් එකතු කළා]: Popup එක වහන Function එක
 function closeModal() {
   document.getElementById('productModal').classList.remove('active');
   document.getElementById('modal-overlay').classList.remove('active');
