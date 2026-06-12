@@ -2,7 +2,7 @@ const API_BASE_URL = window.location.origin.includes('localhost')
   ? 'http://localhost:5000/api/items' 
   : `${window.location.origin}/api/items`;
 
-const WHATSAPP_NUMBER = "94771234567"; // ⚠️ ඔයාගේ සැබෑ WhatsApp නම්බර් එක දාන්න මචං
+const WHATSAPP_NUMBER = "94783938367"; // ⚠️ ඔයාගේ සැබෑ WhatsApp නම්බර් එක දාන්න මචං
 
 const mockData = [
   { _id: "ff1", title: "Free Fire Max Level 72 | Full Evo Gun Skins", category: "freefire", price: 8500, level: 72, skins: "6 Evo Max", description: "This is a premium account with rare emotes and maxed out guns.", image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=400" },
@@ -18,7 +18,7 @@ const mockData = [
 ];
 
 let allFetchedItems = []; 
-let currentSelectedCategory = 'all'; // 💡 [අලුතින් එකතු කළා] දැනට බලන category එක මතක තියාගන්න
+let currentSelectedCategory = 'all'; 
 
 document.addEventListener("DOMContentLoaded", () => {
   fetchProducts('all');
@@ -40,7 +40,7 @@ function toggleSidebar() {
 }
 
 async function fetchProducts(category = 'all') {
-  currentSelectedCategory = category; // 💡 දැනට තෝරාගත් category එක update කරනවා
+  currentSelectedCategory = category; 
   const grid = document.getElementById("products-grid");
   grid.innerHTML = '<div class="loading">Loading premium listings...</div>';
   
@@ -52,7 +52,6 @@ async function fetchProducts(category = 'all') {
     
     allFetchedItems = data.length ? data : mockData;
     
-    // 💡 [වෙනස් කළා]: Category එක 'all' නම්, ඩයමන්ඩ් කාඩ්ස් අයින් කරලා Render කරනවා
     if (category === 'all') {
       const accountsOnly = allFetchedItems.filter(item => item.category !== 'diamonds');
       renderGrid(accountsOnly);
@@ -76,13 +75,11 @@ function renderGrid(items) {
   const grid = document.getElementById("products-grid");
   grid.innerHTML = "";
   
-  // 💡 [ආරක්ෂිත පියවරක්]: මොකක් හරි හේතුවකින් 'all' layout එකේදී items ආවොත් ඒවායෙනුත් diamonds filter කරලා දානවා
   let displayItems = items;
   if (currentSelectedCategory === 'all') {
     displayItems = items.filter(item => item.category !== 'diamonds');
   }
 
-  // බඩු මුකුත්ම නැත්නම් පණිවිඩයක් පෙන්වනවා
   if (displayItems.length === 0) {
     grid.innerHTML = '<div class="loading">No listings available at the moment.</div>';
     return;
@@ -153,6 +150,7 @@ function selectCategory(category, element) {
   toggleSidebar();
 }
 
+// 🛍️ [අප්ඩේට් කළා]: WhatsApp මැසේජ් එක ඇතුළටම විස්තර ඔටෝ හැදෙන කෑල්ල
 function openProductModal(itemId) {
   const item = allFetchedItems.find(i => i._id === itemId);
   if (!item) return;
@@ -167,17 +165,24 @@ function openProductModal(itemId) {
   const specsContainer = document.getElementById('modal-specs');
   specsContainer.innerHTML = ''; 
 
+  // 📝 WhatsApp මැසේජ් එකට එකතු කරන්න අමතර විස්තර string එකක් හදාගන්නවා
+  let whatsappDetails = '';
+
   if (item.category === 'freefire') {
     specsContainer.innerHTML = `
       <div><strong>Level:</strong> ${item.level || 'N/A'}</div>
       <div><strong>Evo Skins:</strong> ${item.skins || 'None'}</div>
     `;
+    whatsappDetails = `📊 Level: ${item.level || 'N/A'}\n🔥 Skins: ${item.skins || 'None'}`;
   } else if (item.category === 'youtube') {
     specsContainer.innerHTML = `<div><strong>Subscribers:</strong> ${item.subscribers || 'N/A'}</div>`;
+    whatsappDetails = `🔴 Subscribers: ${item.subscribers || 'N/A'}`;
   } else if (item.category === 'tiktok') {
     specsContainer.innerHTML = `<div><strong>Followers:</strong> ${item.followers || 'N/A'}</div>`;
+    whatsappDetails = `🎵 Followers: ${item.followers || 'N/A'}`;
   } else if (item.category === 'diamonds') {
     specsContainer.innerHTML = `<div><strong>Membership Type:</strong> ${item.diamondCount || 'Free Fire Pack'}</div>`;
+    whatsappDetails = `💎 Pack Type: ${item.diamondCount || 'Membership Pack'}`;
   }
 
   const buyBtn = document.getElementById('modal-buy-btn');
@@ -191,7 +196,8 @@ function openProductModal(itemId) {
     buyBtn.style.background = "#25d366";
     buyBtn.style.pointerEvents = "auto";
     
-    const message = `Hello RICKEY STORE,\n\nMala meka madiwa ganna puluwanda?\n\n📌 Product: ${item.title}\n🆔 Item ID: ${item._id}\n💰 Price: LKR ${item.price.toLocaleString()}`;
+    // 🔥 [සුපිරිම වෙනස්කම]: මැසේජ් එක ලස්සනට Format කරලා details ඔක්කොම එකතු කරා මචං
+    const message = `Hello RICKEY STORE,\n\nCAN I BUY THIS?\n\n📌 Product: ${item.title}\n🆔 Item ID: ${item._id}\n${whatsappDetails}\n💰 Price: LKR ${item.price.toLocaleString()}`;
     buyBtn.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
   }
 
