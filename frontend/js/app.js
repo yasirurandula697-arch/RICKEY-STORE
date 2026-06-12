@@ -2,7 +2,7 @@ const API_BASE_URL = window.location.origin.includes('localhost')
   ? 'http://localhost:5000/api/items' 
   : `${window.location.origin}/api/items`;
 
-const WHATSAPP_NUMBER = "94783938367"; // ⚠️ ඔයාගේ සැබෑ WhatsApp නම්බර් එක දාන්න මචං
+const WHATSAPP_NUMBER = "94761305100"; // ⚠️ ඔයාගේ සැබෑ WhatsApp නම්බර් එක දාන්න මචං
 
 const mockData = [
   { _id: "ff1", title: "Free Fire Max Level 72 | Full Evo Gun Skins", category: "freefire", price: 8500, level: 72, skins: "6 Evo Max", description: "This is a premium account with rare emotes and maxed out guns.", image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=400" },
