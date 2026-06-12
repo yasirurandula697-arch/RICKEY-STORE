@@ -122,7 +122,6 @@ function renderGrid(items) {
         <img src="${item.image}" alt="${item.title}" style="width:100%; height:100%; object-fit:cover;">
       </div>
       <div class="card-content">
-        <h3>${item.title}</h3>
         <div class="meta-info">${metaHTML}</div>
         <div class="price-row">
           <div class="price">LKR ${item.price.toLocaleString()}</div>
