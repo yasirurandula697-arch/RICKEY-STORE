@@ -4,13 +4,12 @@ const API_BASE_URL = window.location.origin.includes('localhost')
 
 const WHATSAPP_NUMBER = "94771234567"; // ⚠️ ඔයාගේ සැබෑ WhatsApp නම්බර් එක දාන්න මචං
 
-// 💡 [අප්ඩේට් කළා]: ඩයමන්ඩ් කාඩ්ස් ටික Weekly / Monthly Packs විදියට Mock Data වලටත් දැම්මා
 const mockData = [
   { _id: "ff1", title: "Free Fire Max Level 72 | Full Evo Gun Skins", category: "freefire", price: 8500, level: 72, skins: "6 Evo Max", description: "This is a premium account with rare emotes and maxed out guns.", image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=400" },
   { _id: "yt1", title: "International Funny Compilation Channel (Monetized)", category: "youtube", price: 24000, subscribers: "12.4K", description: "Monetized channel, clean history, earning passive income from funny shorts.", image: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?q=80&w=400" },
   { _id: "tt1", title: "Gaming/Editz Viral TikTok Profile", category: "tiktok", price: 4500, followers: "25K", description: "High engagement profile, mostly Sri Lankan and global gaming audience.", image: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=400" },
   
-  // 💎 New Diamond Shop Memberships
+  // 💎 Diamond Shop Memberships
   { _id: "dia_wl", title: "Weekly Membership Lite", category: "diamonds", price: 350, diamondCount: "Weekly Lite", description: "Get instant rewards and daily diamonds with Weekly Lite membership.", image: "https://images.unsplash.com/photo-1561715276-a2d087060f1d?q=80&w=400" },
   { _id: "dia_w", title: "Weekly Membership", category: "diamonds", price: 790, diamondCount: "Weekly Standard", description: "Standard Weekly Membership. Super fast activation via Player ID.", image: "https://images.unsplash.com/photo-1561715276-a2d087060f1d?q=80&w=400" },
   { _id: "dia_vw", title: "VIP Weekly Membership", category: "diamonds", price: 1150, diamondCount: "VIP Weekly", description: "Premium VIP Weekly benefits. Level up your game instantly.", image: "https://images.unsplash.com/photo-1561715276-a2d087060f1d?q=80&w=400" },
@@ -19,6 +18,7 @@ const mockData = [
 ];
 
 let allFetchedItems = []; 
+let currentSelectedCategory = 'all'; // 💡 [අලුතින් එකතු කළා] දැනට බලන category එක මතක තියාගන්න
 
 document.addEventListener("DOMContentLoaded", () => {
   fetchProducts('all');
@@ -40,6 +40,7 @@ function toggleSidebar() {
 }
 
 async function fetchProducts(category = 'all') {
+  currentSelectedCategory = category; // 💡 දැනට තෝරාගත් category එක update කරනවා
   const grid = document.getElementById("products-grid");
   grid.innerHTML = '<div class="loading">Loading premium listings...</div>';
   
@@ -49,13 +50,25 @@ async function fetchProducts(category = 'all') {
     if (!response.ok) throw new Error("Fallback execution trigger");
     const data = await response.json();
     
-    // 🌍 සර්වර් එකෙන් එන ඩේටා ග්ලෝබල් ඇරේ එකට දානවා (Admin Panel එකෙන් දාන දේවල්)
     allFetchedItems = data.length ? data : mockData;
-    renderGrid(data.length ? data : mockData.filter(i => category === 'all' || i.category === category));
+    
+    // 💡 [වෙනස් කළා]: Category එක 'all' නම්, ඩයමන්ඩ් කාඩ්ස් අයින් කරලා Render කරනවා
+    if (category === 'all') {
+      const accountsOnly = allFetchedItems.filter(item => item.category !== 'diamonds');
+      renderGrid(accountsOnly);
+    } else {
+      const filtered = allFetchedItems.filter(item => item.category === category);
+      renderGrid(filtered);
+    }
   } catch (err) {
     allFetchedItems = mockData; 
-    const filtered = mockData.filter(item => category === 'all' || item.category === category);
-    renderGrid(filtered);
+    if (category === 'all') {
+      const accountsOnly = mockData.filter(item => item.category !== 'diamonds');
+      renderGrid(accountsOnly);
+    } else {
+      const filtered = mockData.filter(item => item.category === category);
+      renderGrid(filtered);
+    }
   }
 }
 
@@ -63,7 +76,19 @@ function renderGrid(items) {
   const grid = document.getElementById("products-grid");
   grid.innerHTML = "";
   
-  items.forEach(item => {
+  // 💡 [ආරක්ෂිත පියවරක්]: මොකක් හරි හේතුවකින් 'all' layout එකේදී items ආවොත් ඒවායෙනුත් diamonds filter කරලා දානවා
+  let displayItems = items;
+  if (currentSelectedCategory === 'all') {
+    displayItems = items.filter(item => item.category !== 'diamonds');
+  }
+
+  // බඩු මුකුත්ම නැත්නම් පණිවිඩයක් පෙන්වනවා
+  if (displayItems.length === 0) {
+    grid.innerHTML = '<div class="loading">No listings available at the moment.</div>';
+    return;
+  }
+  
+  displayItems.forEach(item => {
     const isDiamond = item.category === 'diamonds';
     const isSold = item.status === 'sold';
     
@@ -82,7 +107,6 @@ function renderGrid(items) {
     } else if (item.category === 'tiktok') {
       metaHTML = `<span>Followers: <strong>${item.followers || '0'}</strong></span>`;
     } else if (item.category === 'diamonds') {
-      // 💡 [වෙනස් කළා]: Admin Panel එකෙන් දාන Pack Type එක (Weekly/Monthly) මෙතනින් පේනවා
       metaHTML = `<span>Type: <strong>💎 ${item.diamondCount || 'Membership'}</strong></span>`;
     }
 
@@ -153,7 +177,6 @@ function openProductModal(itemId) {
   } else if (item.category === 'tiktok') {
     specsContainer.innerHTML = `<div><strong>Followers:</strong> ${item.followers || 'N/A'}</div>`;
   } else if (item.category === 'diamonds') {
-    // 💡 [වෙනස් කළා]: Popup එක ඇතුලෙත් Membership Type එක ලස්සනට වැටෙන්න හැදුවා
     specsContainer.innerHTML = `<div><strong>Membership Type:</strong> ${item.diamondCount || 'Free Fire Pack'}</div>`;
   }
 
