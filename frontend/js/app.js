@@ -193,7 +193,7 @@ function openProductModal(itemId) {
     buyBtn.style.pointerEvents = "auto";
     
     // 📸 [සුපිරිම වෙනස්කම]: මැසේජ් එකේ අන්තිමට Photo එකේ Link එක ඔටෝමැටික් එකතු කරා මචං
-    const message = `Hello RICKEY STORE,\n\nMala meka madiwa ganna puluwanda?\n\n📌 Product: ${item.title}\n🆔 Item ID: ${item._id}\n${whatsappDetails}\n💰 Price: LKR ${item.price.toLocaleString()}\n\n🖼️ Product Photo: ${item.image}`;
+    const message = `Hello RICKEY STORE,\n\nCAN I BUY THIS?\n\n📌 Product: ${item.title}\n🆔 Item ID: ${item._id}\n${whatsappDetails}\n💰 Price: LKR ${item.price.toLocaleString()}\n\n🖼️ Product Photo: ${item.image}`;
     buyBtn.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
   }
 
