@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login | RANU EDITZ</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+</head>
+<body style="display:flex; justify-content:center; align-items:center; height:100vh; background:#f8f9fa;">
+
+    <div class="card" style="width: 350px; padding: 30px; text-align: center;">
+        <h2 style="margin-bottom: 20px;">Welcome Back</h2>
+        <input type="email" id="email" placeholder="Email" style="width:100%; padding:10px; margin-bottom:10px;"><br>
+        <input type="password" id="password" placeholder="Password" style="width:100%; padding:10px; margin-bottom:10px;"><br>
+        <button onclick="login()" style="width:100%; padding:10px; background:#007bff; color:white; border:none; border-radius:5px; cursor:pointer;">Login</button>
+    </div>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDQzjYIoFl1uU0c24IkMFYKt9xsIjrlt3U",
+            authDomain: "rickey-3c59e.firebaseapp.com",
+            projectId: "rickey-3c59e",
+            storageBucket: "rickey-3c59e.firebasestorage.app",
+            messagingSenderId: "375211284684",
+            appId: "1:375211284684:web:cb2faf2d708d53fe6e4a69"
+        };
+        firebase.initializeApp(firebaseConfig);
+
+        function login() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            firebase.auth().signInWithEmailAndPassword(email, password)
+                .then(() => { window.location.href = "store.html"; })
+                .catch((error) => { alert("Error: " + error.message); });
+        }
+
+        // දැනටමත් ලොග් වෙලා නම් කෙලින්ම Store එකට යවනවා
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) { window.location.href = "store.html"; }
+        });
+    </script>
+</body>
+</html>
