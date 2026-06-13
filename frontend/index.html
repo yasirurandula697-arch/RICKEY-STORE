@@ -49,26 +49,40 @@
         appId: "1:375211284684:web:cb2faf2d708d53fe6e4a69"
     };
     firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
 
-    function login() {
-        const e = document.getElementById('email').value;
-        const p = document.getElementById('password').value;
-        firebase.auth().signInWithEmailAndPassword(e, p)
-            .then(() => window.location.href = "store.html")
-            .catch(err => alert(err.message));
-    }
-
+    // REGISTER
     function register() {
         const e = document.getElementById('email').value;
         const p = document.getElementById('password').value;
-        firebase.auth().createUserWithEmailAndPassword(e, p)
-            .then(() => alert("Account Created Successfully!"))
+        auth.createUserWithEmailAndPassword(e, p)
+            .then((userCredential) => {
+                userCredential.user.sendEmailVerification()
+                    .then(() => alert("Account සෑදුවා! කරුණාකර ඔබේ ඊමේල් එක හරහා ගිණුම Verify කරන්න."));
+            })
             .catch(err => alert(err.message));
     }
 
+    // LOGIN
+    function login() {
+        const e = document.getElementById('email').value;
+        const p = document.getElementById('password').value;
+        auth.signInWithEmailAndPassword(e, p)
+            .then((userCredential) => {
+                if (!userCredential.user.emailVerified) {
+                    alert("⚠️ ඔබේ ඊමේල් එක Verify කර නැත!");
+                    auth.signOut();
+                } else {
+                    window.location.href = "store.html";
+                }
+            })
+            .catch(err => alert(err.message));
+    }
+
+    // GOOGLE LOGIN
     function googleLogin() {
         const provider = new firebase.auth.GoogleAuthProvider();
-        firebase.auth().signInWithPopup(provider)
+        auth.signInWithPopup(provider)
             .then(() => window.location.href = "store.html");
     }
 </script>
