@@ -49,14 +49,22 @@ function toggleSidebar() {
   }
 }
 
-// 🔥 [අප්ඩේට් කළා] - Slider එක හොලවද්දී Text එක වෙනස් වන ලොජික් එක
+
+// 🔥 [අප්ඩේට් කළා] - Slider එක හොලවද්දී වැඩ කරන ලොජික් එක
 function updatePriceFilter(value) {
-  currentMaxPrice = parseInt(value);
-  const priceValueEl = document.getElementById('price-value');
+  let sliderValue = parseInt(value);
   
+  // යූසර් ස්ලයිඩර් එක උපරිම කෙළවරටම (10000ට) ගෙනිච්චොත් ලිමිට් එක අයින් කරනවා
+  if (sliderValue === 10000) {
+    currentMaxPrice = 999999; 
+  } else {
+    currentMaxPrice = sliderValue;
+  }
+  
+  const priceValueEl = document.getElementById('price-value');
   if (priceValueEl) {
-    if (currentMaxPrice === 10000) {
-      priceValueEl.innerText = "Any Price"; // 10000 දී සීමාවක් නැහැ කියලා පෙන්වනවා
+    if (currentMaxPrice === 999999) {
+      priceValueEl.innerText = "Any Price"; // 10000 දී හෝ Default එකේදී සීමාවක් නැහැ කියලා පෙන්වනවා
     } else {
       priceValueEl.innerText = `Rs. ${currentMaxPrice.toLocaleString()}`;
     }
@@ -65,7 +73,7 @@ function updatePriceFilter(value) {
   filterAndRender();
 }
 
-// 🔥 [අප්ඩේට් කළා] - 10,000 දී ඕනෑම මිලක බඩුවක් පෙන්වන සුපිරිම ලොජික් එක
+// 🔥 [අප්ඩේට් කළා] - Diamond Store එක හැර අනිත් ඒවාට Price Filter එක හරියටම දුවන ලොජික් එක
 function filterAndRender() {
   let filtered = allFetchedItems;
 
@@ -81,22 +89,31 @@ function filterAndRender() {
     });
   }
 
-  // 2. මිල අනුව ෆිල්ටර් කිරීම (Max 10,000 උඩ තියෙද්දී මිල ෆිල්ටර් එකක් වෙන්නේ නැහැ, සේරම පේනවා)
-  if (currentMaxPrice < 10000) {
+  // 2. මිල අනුව ෆිල්ටර් කිරීම (කැටගරි එක 'diamonds' නෙවෙයි නම් විතරක් මිල බලනවා)
+  if (currentSelectedCategory !== 'diamonds') {
     filtered = filtered.filter(item => {
       return parseInt(item.price) <= currentMaxPrice;
     });
   }
 
-  
   renderGrid(filtered);
 }
-
 async function fetchProducts(category = 'all') {
   currentSelectedCategory = category; 
   const grid = document.getElementById("products-grid");
   grid.innerHTML = '<div class="loading">Loading premium listings...</div>';
   
+  // 🔥 [අලුතින්ම එකතු කළා] - Diamond Store එකේදී Slider එක UI එකෙන් Hide/Show කිරීම
+  const filterRow = document.querySelector(".filter-section-row");
+  if (filterRow) {
+    if (category === 'diamonds') {
+      filterRow.style.display = "none"; // 💎 Diamond ස්ටෝර් එකේදී ස්ලයිඩර් එක වහනවා
+    } else {
+      filterRow.style.display = "flex"; // 🎮 අනිත් හැම තැනකදීම ස්ලයිඩර් එක ආයෙත් පෙන්වනවා
+    }
+  }
+  
+    // ... (ඔයාගේ ඉතිරි කෝඩ් එක සාමාන්‍ය විදිහටම තියෙන්න ඇරලා බ්‍රැකට් ටික වහන්න)
   try {
     const url = category === 'all' ? API_BASE_URL : `${API_BASE_URL}?category=${category}`;
     const response = await fetch(url);
