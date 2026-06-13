@@ -125,7 +125,7 @@ function renderGrid(items) {
       divider.style.gridColumn = "1 / -1"; 
       divider.innerHTML = `
         <hr style="border: 0; height: 1px; background: linear-gradient(to right, transparent, #ff416c, transparent); margin: 40px 0 20px 0;">
-        <h3 style="font-family: 'Orbitron', sans-serif; text-align: center; color: #fff; margin-bottom: 20px; font-size: 1.4rem; text-transform: uppercase; letter-spacing: 2px;">💎 Direct Gems Top-Up 💎</h3>
+        <h3 style="font-family: 'Orbitron', sans-serif; text-align: center; color: #212529 !important; margin-bottom: 20px; font-size: 1.4rem; text-transform: uppercase; letter-spacing: 2px;">💎 Direct Gems Top-Up 💎</h3>
       `;
       grid.appendChild(divider);
 
