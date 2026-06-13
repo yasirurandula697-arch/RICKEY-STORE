@@ -23,9 +23,11 @@ const mockData = [
   { _id: "gem_1080", title: "1080+108 Diamonds Pack", category: "diamonds", price: 2300, diamondCount: "1188 Gems", isGems: true, description: "Instant Top-Up via Player ID.", image: "https://images.unsplash.com/photo-1561715276-a2d087060f1d?q=80&w=400" }
 ];
 
+// ... (උඩින්ම තියෙන mockData ටික සාමාන්‍ය විදිහටම තියෙන්න ඇරලා, මෙතනින් පල්ලෙහාට බලන්න)
+
 let allFetchedItems = []; 
 let currentSelectedCategory = 'all'; 
-// 🔥 [අලුතින්ම එකතු කළා] - දැනට තෝරාගෙන තියෙන උපරිම මිල තියාගන්න Variable එකක්
+// 🔥 Default එක 10000 (ඒ කියන්නේ සීමාවක් නැති Unlimited කියන එක)
 let currentMaxPrice = 10000; 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -47,25 +49,27 @@ function toggleSidebar() {
   }
 }
 
-// 🔥 [අලුතින්ම එකතු කළා] - Slider එක හොලවද්දී ලයිව් වැඩ කරන ෆන්ක්ෂන් එක
+// 🔥 [අප්ඩේට් කළා] - Slider එක හොලවද්දී Text එක වෙනස් වන ලොජික් එක
 function updatePriceFilter(value) {
   currentMaxPrice = parseInt(value);
-  
-  // HTML එකේ පෙන්නන "Rs. 10,000" කියන ටෙක්ස්ට් එක වෙනස් කරනවා ලස්සනට
   const priceValueEl = document.getElementById('price-value');
+  
   if (priceValueEl) {
-    priceValueEl.innerText = `Rs. ${currentMaxPrice.toLocaleString()}`;
+    if (currentMaxPrice === 10000) {
+      priceValueEl.innerText = "Any Price"; // 10000 දී සීමාවක් නැහැ කියලා පෙන්වනවා
+    } else {
+      priceValueEl.innerText = `Rs. ${currentMaxPrice.toLocaleString()}`;
+    }
   }
   
-  // දැනට තියෙන කැටගරි එකට අනුව බඩු ටික ආයෙත් ෆිල්ටර් කරලා Grid එකට ලෝඩ් කරනවා
   filterAndRender();
 }
 
-// 🔥 [අලුතින්ම එකතු කළා] - කැටගරි එක සහ මිල දෙකම එකතු කරලා ෆිල්ටර් කරන පොදු ෆන්ක්ෂන් එක
+// 🔥 [අප්ඩේට් කළා] - 10,000 දී ඕනෑම මිලක බඩුවක් පෙන්වන සුපිරිම ලොජික් එක
 function filterAndRender() {
   let filtered = allFetchedItems;
 
-  // 1. මුලින්ම කැටගරි එක අනුව වෙන් කරගන්නවා
+  // 1. කැටගරි එක අනුව ෆිල්ටර් කිරීම
   if (currentSelectedCategory === 'all') {
     filtered = allFetchedItems.filter(item => item.category !== 'diamonds' && item.category !== 'diamond');
   } else {
@@ -77,13 +81,14 @@ function filterAndRender() {
     });
   }
 
-  // 2. ඊට පස්සේ යූසර් Slider එකෙන් දාපු උපරිම මිලට වඩා අඩු බඩු විතරක් ඉතිරි කරගන්නවා
-  filtered = filtered.filter(item => {
-    const itemPrice = parseInt(item.price);
-    return itemPrice <= currentMaxPrice;
-  });
+  // 2. මිල අනුව ෆිල්ටර් කිරීම (Max 10,000 උඩ තියෙද්දී මිල ෆිල්ටර් එකක් වෙන්නේ නැහැ, සේරම පේනවා)
+  if (currentMaxPrice < 10000) {
+    filtered = filtered.filter(item => {
+      return parseInt(item.price) <= currentMaxPrice;
+    });
+  }
 
-  // 3. අවසාන වශයෙන් Grid එකට යවනවා පෙන්වන්න
+  
   renderGrid(filtered);
 }
 
