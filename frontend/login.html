@@ -104,8 +104,8 @@
 
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-
-  <script>
+<script>
+  // 🌍 Real Updated Firebase Config
     const firebaseConfig = {
       apiKey: "AIzaSyDQzjYIoFl1uU0c24IkMFYKt9xsIjrlt3U",
       authDomain: "rickey-3c59e.firebaseapp.com",
@@ -115,6 +115,7 @@
       appId: "1:375211284684:web:cb2faf2d708d53fe6e4a69"
     };
     
+    // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
 
@@ -126,6 +127,7 @@
       successEl.style.display = 'none';
     }
 
+    // Toggle forms
     function toggleAuth(e, mode) {
       e.preventDefault();
       const loginForm = document.getElementById('login-form');
@@ -144,15 +146,17 @@
       }
     }
 
-    // 🔒 USER SECURITY CHECK (ලෙඩේ නිවැරදි කරන ලදි)
-// 🔒 USER SECURITY CHECK (ලොගින් ලූප් එක සම්පූර්ණයෙන්ම විසඳන ලදි)
+    // 🔒 USER SECURITY CHECK (ලොගින් ලූප් එක සදහටම විසඳන ලදි)
     auth.onAuthStateChanged((user) => {
       if (user) {
-        // ක්‍රම 2න් මොකකින් ආවත්, යූසර්ගේ ඊමේල් එක Verify නම් (Google අයගේ default verify වෙනවා) ඩෑෂ්බෝඩ් එකට යවනවා
-        if (user.emailVerified) {
+        // යූසර් ලොග් වුණේ Google වලින්ද කියලා 100% ක් ෂුවර් කරගන්න ක්‍රමය
+        const isGoogleUser = user.providerData && user.providerData.some(p => p.providerId === 'google.com');
+        
+        // Google යූසර් කෙනෙක් නම් හෝ Email Verify කරපු කෙනෙක් නම් කෙලින්ම ඩෑෂ්බෝඩ් එකට යවනවා
+        if (isGoogleUser || user.emailVerified) {
           window.location.href = "dashboard.html";
         } else {
-          // Email/Password වලින් ඇවිත් තවම Verify කරලා නැති අයව විතරක් බ්ලොක් කරනවා
+          // සාමාන්‍ය Email/Password වලින් ඇවිත් තවම Verify කරලා නැති අයව විතරක් බ්ලොක් කරනවා
           errorEl.style.display = 'block';
           errorEl.innerText = "⚠️ Your email is not verified yet! Please check your email inbox.";
           auth.signOut();
@@ -160,12 +164,11 @@
       }
     });
 
-    // 🌐 3. GOOGLE POPUP LOGIN (ගින්දර වගේ වැඩ කරන Popup මෙතඩ් එක)
+    // 🌐 3. GOOGLE POPUP LOGIN
     document.getElementById('google-login-btn').addEventListener('click', () => {
       resetAlerts();
       const provider = new firebase.auth.GoogleAuthProvider();
       
-      // Popup ක්‍රමයට වෙනම වින්ඩෝ එකක් ඇවිත් ලොග් වෙන්න සලස්වනවා
       auth.signInWithPopup(provider)
         .then((result) => {
           if (result.user) {
