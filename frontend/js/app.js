@@ -102,14 +102,13 @@ async function fetchProducts(category = 'all') {
   }
 }
 
-// 💡 [පියවර 2 නිවැරදිව එකතු කළා]: Diamond Store එක මැදින් වෙන් කරන ලොජික් එක
 function renderGrid(items) {
   const grid = document.getElementById("products-grid");
   grid.innerHTML = "";
   
   let displayItems = items;
   if (currentSelectedCategory === 'all') {
-    displayItems = items.filter(item => item.category !== 'diamonds');
+    displayItems = items.filter(item => item.category !== 'diamonds' && item.category !== 'diamond');
   }
 
   if (displayItems.length === 0) {
@@ -119,10 +118,11 @@ function renderGrid(items) {
   
   // Diamond Store එකේදී විතරක් Memberships සහ Gems වෙන වෙනම බෙදනවා
   if (currentSelectedCategory === 'diamonds') {
-    const memberships = displayItems.filter(item => !item.isGems);
-    const gemsPacks = displayItems.filter(item => item.isGems);
+    // 💡 [ප්‍රධානම විසඳුම]: සර්වර් එකෙන් ආවත් ID එක 'gem_' නම් ඒක Membership එකක් නෙවෙයි Gems කියලා වෙන් කරනවා!
+    const memberships = displayItems.filter(item => !item.isGems && !(item._id && item._id.startsWith('gem_')));
+    const gemsPacks = displayItems.filter(item => item.isGems || (item._id && item._id.startsWith('gem_')));
 
-    // 1. Memberships කාඩ් ටික දානවා
+    // 1. Memberships කාඩ් ටික විතරක් ඉස්සෙල්ලම දානවා
     memberships.forEach(item => createCardElement(item, grid));
 
     // 2. Gems Packs තියෙනවා නම් මැදින් ලස්සන හරස් ඉරක් (Divider) සහ Heading එකක් දානවා
@@ -135,7 +135,7 @@ function renderGrid(items) {
       `;
       grid.appendChild(divider);
 
-      // 3. හරස් ඉරට යටින් Gems කාඩ් ටික දානවා
+      // 3. හරස් ඉරට යටින් Gems කාඩ් ටික විතරක් දානවා
       gemsPacks.forEach(item => createCardElement(item, grid));
     }
   } else {
