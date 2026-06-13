@@ -188,7 +188,7 @@ header {
   margin: 0 auto;
 }
 
-/* 6. Product Cards (අර පාවෙන, Shadow වෙනස් වෙන කොටස) */
+/* 6. Product Cards */
 .store-container {
   padding: 40px 8%;
 }
@@ -211,22 +211,31 @@ header {
   border: 1px solid #e9ecef;
   border-radius: 16px; /* දාර රවුම් කලා ලස්සන වෙන්න */
   overflow: hidden;
-  /* මෙන්න මේකෙන් තමයි පාවෙන ඉෆෙක්ට් එක (Smooth Shadow) එන්නේ */
   transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
   position: relative;
 }
 
-/* බටන් එකක් හෝ කාඩ් එකක් උඩට මවුස් එක ගියාම (Touch කරාම) පාවෙන සීන් එක */
 .card:hover {
   transform: translateY(-6px); /* උඩට පාවෙනවා */
   border-color: #007bff;
   box-shadow: 0 15px 30px rgba(0, 123, 255, 0.08); /* ලස්සන හෙවනැල්ලක් එනවා */
 }
-/* කාඩ් එක ඇතුළේ තියෙන Description එක පේළි 2කට සීමා කරලා ඉතිරි ටික තිත් තුනක් (...) කරන්න */
+
+/* 💎 [අලුතින් එකතු කළා]: දියමන්ති Store එකේ පෙන්වන Title එක සඳහා ස්ටයිල් */
+.card-item-title {
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  color: #212529 !important; /* සුදු පසුබිමට ගැළපෙන්න තද පැහැයෙන් */
+  margin-bottom: 8px !important;
+  line-height: 1.4 !important;
+  display: block !important;
+  font-family: 'Poppins', sans-serif !important;
+}
+
 .card-content p, .card-description {
   display: -webkit-box;
-  -webkit-line-clamp: 2;          /* 💡 මෙතනට දෙන ගණන අනුව පේළි ගණන තීරණය වෙනවා (පේළි 2යි) */
+  -webkit-line-clamp: 2;          /* 💡 පේළි 2යි */
   -webkit-box-orient: vertical;  
   overflow: hidden;
   text-overflow: ellipsis;        /* 💡 පේළි 2 ඉවර වුණාම අන්තිමට ... වදින්නේ මේකෙන් */
@@ -268,6 +277,7 @@ header {
   padding: 20px;
 }
 
+/* සාමාන්‍ය Account Title එකක් තිබුණොත් */
 .card-content h3 {
   font-size: 16px;
   font-weight: 600;
@@ -311,14 +321,13 @@ header {
   font-size: 13px;
   cursor: pointer;
   box-shadow: 0 4px 10px rgba(253, 126, 20, 0.2);
-  transition: all 0.2s ease; /* Smooth transition එක */
+  transition: all 0.2s ease;
 }
 
-/* බටන් එක ටච් කරද්දී / මවුස් එක ගෙනිච්චම වෙනස් වන ක්‍රමය */
 .buy-btn:hover {
   background: #e06d0f; /* තද ඔරේන්ජ් වෙනවා */
   transform: scale(1.03); /* බටන් එක චුට්ටක් ලොකු වෙනවා */
-  box-shadow: 0 6px 14px rgba(253, 126, 20, 0.3); /* හෙවනැල්ල තද වෙනවා (පාවෙනවා වගේ) */
+  box-shadow: 0 6px 14px rgba(253, 126, 20, 0.3);
 }
 
 /* ඩයමන්ඩ් කාඩ් වල බටන් එක නිල් පාටින් */
@@ -347,9 +356,8 @@ footer {
   background: #ffffff;
 }
 
-
 /* =======================================================
-   🛍️ [අලුතින් එකතු කළා] SOFT LIGHT POPUP MODAL STYLES 
+   🛍️ SOFT LIGHT POPUP MODAL STYLES 
    ======================================================= */
 .modal {
   position: fixed;
@@ -513,15 +521,14 @@ footer {
   box-shadow: 0 6px 16px rgba(37, 211, 102, 0.3);
 }
 
-/* පිටුපස Blur වන Overlay එක */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.3); /* කළු පාට ලාවට */
-  backdrop-filter: blur(4px); /* පට්ට ලස්සන Blur ඉෆෙක්ට් එකක් එනවා */
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(4px);
   z-index: 9999;
   opacity: 0;
   pointer-events: none;
