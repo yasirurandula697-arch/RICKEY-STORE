@@ -54,6 +54,28 @@
 
   <!-- Dynamic Product Showcase Container -->
   <main class="store-container">
+    
+    <!-- 🔥 [අලුතින්ම එකතු කළා] - Price Filter Row (Desktop/Mobile දෙකේම දකුණු කෙළවරේ තියෙන්න) -->
+    <div class="filter-section-row" style="display: flex; justify-content: flex-end; width: 100%; margin-bottom: 25px; padding: 0 10px;">
+      <div class="price-filter-wrapper" style="background: #ffffff; padding: 15px 20px; border-radius: 12px; border: 1px solid #e9ecef; box-shadow: 0 4px 12px rgba(0,0,0,0.02); width: 100%; max-width: 320px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <span style="font-weight: 600; color: #212529; font-size: 13px; display: flex; align-items: center; gap: 6px;">
+            💰 Max Price:
+          </span>
+          <span id="price-value" style="font-weight: 700; color: #007bff; font-family: 'Orbitron', sans-serif; font-size: 14px;">
+            Rs. 10,000
+          </span>
+        </div>
+        
+        <input type="range" id="price-slider" min="0" max="10000" step="50" value="10000" oninput="updatePriceFilter(this.value)" style="width: 100%; cursor: pointer; accent-color: #007bff; display: block;">
+        
+        <div style="display: flex; justify-content: space-between; font-size: 10px; color: #9c9c9c; margin-top: 4px; font-weight: 500;">
+          <span>Rs. 0</span>
+          <span>Max: Rs. 10,000+</span>
+        </div>
+      </div>
+    </div>
+
     <h2 id="store-title" class="section-title">All Available Products</h2>
     <div id="products-grid" class="products-grid">
       <!-- Dynamic products will load via JavaScript -->
@@ -64,7 +86,9 @@
   <footer>
     <p>&copy; 2026 RICKEY STORE. Powering Sri Lankan Gamers & Creators.</p>
   </footer>
-<div id="productModal" class="modal">
+
+  <!-- Product View Modal -->
+  <div id="productModal" class="modal">
     <div class="modal-content">
       <span class="modal-close" onclick="closeModal()">&times;</span>
       <div class="modal-body">
@@ -88,29 +112,30 @@
     </div>
   </div>
 
-<div id="aboutModal" class="modal">
-  <div class="modal-content">
-    <span class="modal-close" onclick="closeAboutModal()">&times;</span>
-    <div style="text-align: center; margin-bottom: 20px;">
-      <h2 style="font-family: 'Orbitron', sans-serif; font-weight: 900; color: #212529;">ABOUT <span style="color: #007bff;">RICKEY STORE</span></h2>
-      <p style="color: #6c757d; font-size: 14px; margin-top: 5px;">Sri Lanka's Premium Gaming & Digital Services Partner</p>
+  <!-- About Us Modal -->
+  <div id="aboutModal" class="modal">
+    <div class="modal-content">
+      <span class="modal-close" onclick="closeAboutModal()">&times;</span>
+      <div style="text-align: center; margin-bottom: 20px;">
+        <h2 style="font-family: 'Orbitron', sans-serif; font-weight: 900; color: #212529;">ABOUT <span style="color: #007bff;">RICKEY STORE</span></h2>
+        <p style="color: #6c757d; font-size: 14px; margin-top: 5px;">Sri Lanka's Premium Gaming & Digital Services Partner</p>
+      </div>
+      <div style="background: #f8f9fa; padding: 20px; border-radius: 14px; border-left: 4px solid #007bff; margin-bottom: 20px; font-size: 14px; line-height: 1.6; color: #495057; text-align: left;">
+        <p>සාදරයෙන් පිළිගන්නවා! <strong>RICKEY STORE</strong> කියන්නේ ඔයාලට අවශ්‍ය කරන සියලුම Premium Free Fire Accounts, High-Quality YouTube & TikTok Channels වගේම 100% විශ්වාසවන්ත, ක්ෂණික Diamond Top-Up සහ Memberships එකම තැනකින් ලබාගන්න පුළුවන් ලංකාවේ විශ්වාසවන්තම ඩිජිටල් ස්ටෝර් එකක්.</p>
+        <br>
+        <p>අපගේ ප්‍රධානම අරමුණ වෙන්නේ ඉතාමත් සාධාරණ මිල ගණන් යටතේ, වංචාවකින් තොරව (100% Trusted) සහ ඉතාමත් වේගවත් පාරිභෝගික සේවාවක් (Fast Service) ඔයාලට ලබා දෙන එකයි.</p>
+      </div>
+      <div class="modal-specs" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; text-align: left;">
+        <div><strong>🔥 Services:</strong> Accounts, Top-Up</div>
+        <div><strong>🇱🇰 Location:</strong> Sri Lanka</div>
+        <div><strong>⚡ Processing Time:</strong> 1 Mins</div>
+        <div><strong>✅ Reliability:</strong> 100% Safe & Secure</div>
+      </div>
+      <a href="https://wa.me/94761305100" target="_blank" class="modal-buy-btn" style="background: #007bff; box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2); text-decoration: none; display: block; color: #fff; padding: 12px; border-radius: 10px; font-weight: 700; margin-top: 15px;">
+        💬 Contact Admin
+      </a>
     </div>
-    <div style="background: #f8f9fa; padding: 20px; border-radius: 14px; border-left: 4px solid #007bff; margin-bottom: 20px; font-size: 14px; line-height: 1.6; color: #495057; text-align: left;">
-      <p>සාදරයෙන් පිළිගන්නවා! <strong>RICKEY STORE</strong> කියන්නේ ඔයාලට අවශ්‍ය කරන සියලුම Premium Free Fire Accounts, High-Quality YouTube & TikTok Channels වගේම 100% විශ්වාසවන්ත, ක්ෂණික Diamond Top-Up සහ Memberships එකම තැනකින් ලබාගන්න පුළුවන් ලංකාවේ විශ්වාසවන්තම ඩිජිටල් ස්ටෝර් එකක්.</p>
-      <br>
-      <p>අපගේ ප්‍රධානම අරමුණ වෙන්නේ ඉතාමත් සාධාරණ මිල ගණන් යටතේ, වංචාවකින් තොරව (100% Trusted) සහ ඉතාමත් වේගවත් පාරිභෝගික සේවාවක් (Fast Service) ඔයාලට ලබා දෙන එකයි.</p>
-    </div>
-    <div class="modal-specs" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; text-align: left;">
-      <div><strong>🔥 Services:</strong> Accounts, Top-Up</div>
-      <div><strong>🇱🇰 Location:</strong> Sri Lanka</div>
-      <div><strong>⚡ Processing Time:</strong> 1 Mins</div>
-      <div><strong>✅ Reliability:</strong> 100% Safe & Secure</div>
-    </div>
-    <a href="https://wa.me/94761305100" target="_blank" class="modal-buy-btn" style="background: #007bff; box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2); text-decoration: none; display: block; color: #fff; padding: 12px; border-radius: 10px; font-weight: 700; margin-top: 15px;">
-      💬 Contact Admin
-    </a>
   </div>
-</div>
   
   <div id="modal-overlay" class="modal-overlay" onclick="closeModal()"></div>
   <script src="js/app.js"></script>
