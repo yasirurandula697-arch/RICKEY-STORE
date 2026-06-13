@@ -2,44 +2,52 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | RANU EDITZ</title>
-    <link rel="stylesheet" href="style.css">
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; background: #f8f9fa; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .auth-card { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 10px; box-sizing: border-box; }
+        .btn { width: 100%; padding: 12px; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; margin-top: 10px; transition: 0.3s; }
+        .btn-login { background: #007bff; color: white; }
+        .btn-google { background: #fff; border: 1px solid #ddd; color: #555; margin-top: 15px; }
+        .btn:hover { opacity: 0.9; transform: translateY(-2px); }
+    </style>
 </head>
-<body style="display:flex; justify-content:center; align-items:center; height:100vh; background:#f8f9fa;">
+<body>
 
-    <div class="card" style="width: 350px; padding: 30px; text-align: center;">
-        <h2 style="margin-bottom: 20px;">Welcome Back</h2>
-        <input type="email" id="email" placeholder="Email" style="width:100%; padding:10px; margin-bottom:10px;"><br>
-        <input type="password" id="password" placeholder="Password" style="width:100%; padding:10px; margin-bottom:10px;"><br>
-        <button onclick="login()" style="width:100%; padding:10px; background:#007bff; color:white; border:none; border-radius:5px; cursor:pointer;">Login</button>
-    </div>
+<div class="auth-card">
+    <h2>Welcome to RANU EDITZ</h2>
+    <input type="email" id="email" placeholder="Email Address">
+    <input type="password" id="password" placeholder="Password">
+    <button class="btn btn-login" onclick="login()">Login</button>
+    <button class="btn" onclick="register()" style="background: #e9ecef;">Register</button>
+    <button class="btn btn-google" onclick="googleLogin()">Login with Google</button>
+</div>
 
-    <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyDQzjYIoFl1uU0c24IkMFYKt9xsIjrlt3U",
-            authDomain: "rickey-3c59e.firebaseapp.com",
-            projectId: "rickey-3c59e",
-            storageBucket: "rickey-3c59e.firebasestorage.app",
-            messagingSenderId: "375211284684",
-            appId: "1:375211284684:web:cb2faf2d708d53fe6e4a69"
-        };
-        firebase.initializeApp(firebaseConfig);
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script>
+    const firebaseConfig = { /* ඔයාගේ Config එක මෙතනට දාන්න */ };
+    firebase.initializeApp(firebaseConfig);
 
-        function login() {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            firebase.auth().signInWithEmailAndPassword(email, password)
-                .then(() => { window.location.href = "store.html"; })
-                .catch((error) => { alert("Error: " + error.message); });
-        }
+    function login() {
+        const e = document.getElementById('email').value;
+        const p = document.getElementById('password').value;
+        firebase.auth().signInWithEmailAndPassword(e, p).then(() => window.location.href = "store.html");
+    }
 
-        // දැනටමත් ලොග් වෙලා නම් කෙලින්ම Store එකට යවනවා
-        firebase.auth().onAuthStateChanged((user) => {
-            if (user) { window.location.href = "store.html"; }
-        });
-    </script>
+    function register() {
+        const e = document.getElementById('email').value;
+        const p = document.getElementById('password').value;
+        firebase.auth().createUserWithEmailAndPassword(e, p).then(() => alert("Registered!"));
+    }
+
+    function googleLogin() {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        firebase.auth().signInWithPopup(provider).then(() => window.location.href = "store.html");
+    }
+</script>
 </body>
 </html>
