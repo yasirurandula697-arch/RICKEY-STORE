@@ -6,6 +6,8 @@
   <title>RICKEY STORE | Premium Gaming & Diamond Hub</title>
   <link rel="stylesheet" href="css/style.css">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <!-- 🚨 Icons ලස්සනට පේන්න FontAwesome එකතු කරා -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
 
@@ -32,6 +34,13 @@
       <button class="close-btn" onclick="toggleSidebar()">&times;</button>
     </div>
     <ul class="sidebar-links">
+      <!-- 🚨 මෙන්න මචං මෙනු එකේ උඩින්ම DASHBOARD එක දැම්මා -->
+      <li>
+        <a href="dashboard.html" style="color: #007bff; font-weight: 700; border-bottom: 1px dashed #e9ecef; padding-bottom: 12px; margin-bottom: 5px;">
+          <i class="fa-solid fa-gauge" style="margin-right: 8px;"></i> My Dashboard
+        </a>
+      </li>
+      
       <li><a href="#" class="nav-link active" onclick="selectCategory('all', this)">All Stores Layout</a></li>
       <li><a href="#" class="nav-link" onclick="selectCategory('freefire', this)">Free Fire Accounts</a></li>
       <li><a href="#" class="nav-link" onclick="selectCategory('youtube', this)">YouTube Channels</a></li>
@@ -55,29 +64,27 @@
   <!-- Dynamic Product Showcase Container -->
   <main class="store-container">
     
+    <!-- 🔥 Price Filter Row (Rs. 1,000 - Any Price) -->
+    <div class="filter-section-row" style="display: flex; justify-content: flex-end; width: 100%; margin-bottom: 25px; padding: 0 10px;">
+      <div class="price-filter-wrapper" style="background: #ffffff; padding: 15px 20px; border-radius: 12px; border: 1px solid #e9ecef; box-shadow: 0 4px 12px rgba(0,0,0,0.02); width: 100%; max-width: 320px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <span style="font-weight: 600; color: #212529; font-size: 13px; display: flex; align-items: center; gap: 6px;">
+            💰 Max Price:
+          </span>
+          <span id="price-value" style="font-weight: 700; color: #007bff; font-family: 'Orbitron', sans-serif; font-size: 14px;">
+            Any Price
+          </span>
+        </div>
+        
+        <input type="range" id="price-slider" min="1000" max="10000" step="100" value="10000" oninput="updatePriceFilter(this.value)" style="width: 100%; cursor: pointer; accent-color: #007bff; display: block;">
+        
+        <div style="display: flex; justify-content: space-between; font-size: 10px; color: #9c9c9c; margin-top: 4px; font-weight: 500;">
+          <span>Rs. 1,000</span>
+          <span>Max: Unlimited</span>
+        </div>
+      </div>
+    </div>
 
-<!-- 🔥 Price Filter Row (Rs. 1,000 - Any Price) -->
-<div class="filter-section-row" style="display: flex; justify-content: flex-end; width: 100%; margin-bottom: 25px; padding: 0 10px;">
-  <div class="price-filter-wrapper" style="background: #ffffff; padding: 15px 20px; border-radius: 12px; border: 1px solid #e9ecef; box-shadow: 0 4px 12px rgba(0,0,0,0.02); width: 100%; max-width: 320px;">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-      <span style="font-weight: 600; color: #212529; font-size: 13px; display: flex; align-items: center; gap: 6px;">
-        💰 Max Price:
-      </span>
-      <!-- මුලින්ම පෙන්නන්නේ Any Price කියලා -->
-      <span id="price-value" style="font-weight: 700; color: #007bff; font-family: 'Orbitron', sans-serif; font-size: 14px;">
-        Any Price
-      </span>
-    </div>
-    
-    <!-- min="1000", max="10000" තියෙන්නේ. හැබැයි 10000 කියන්නේ ලිමිට් එකක් නැති උපරිමය -->
-    <input type="range" id="price-slider" min="1000" max="10000" step="100" value="10000" oninput="updatePriceFilter(this.value)" style="width: 100%; cursor: pointer; accent-color: #007bff; display: block;">
-    
-    <div style="display: flex; justify-content: space-between; font-size: 10px; color: #9c9c9c; margin-top: 4px; font-weight: 500;">
-      <span>Rs. 1,000</span>
-      <span>Max: Unlimited</span>
-    </div>
-  </div>
-</div>
     <h2 id="store-title" class="section-title">All Available Products</h2>
     <div id="products-grid" class="products-grid">
       <!-- Dynamic products will load via JavaScript -->
