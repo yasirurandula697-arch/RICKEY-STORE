@@ -25,6 +25,8 @@ const mockData = [
 
 let allFetchedItems = []; 
 let currentSelectedCategory = 'all'; 
+// 🔥 [අලුතින්ම එකතු කළා] - දැනට තෝරාගෙන තියෙන උපරිම මිල තියාගන්න Variable එකක්
+let currentMaxPrice = 10000; 
 
 document.addEventListener("DOMContentLoaded", () => {
   fetchProducts('all');
@@ -43,6 +45,46 @@ function toggleSidebar() {
     overlay.classList.remove("active");
     setTimeout(() => overlay.style.display = "none", 300);
   }
+}
+
+// 🔥 [අලුතින්ම එකතු කළා] - Slider එක හොලවද්දී ලයිව් වැඩ කරන ෆන්ක්ෂන් එක
+function updatePriceFilter(value) {
+  currentMaxPrice = parseInt(value);
+  
+  // HTML එකේ පෙන්නන "Rs. 10,000" කියන ටෙක්ස්ට් එක වෙනස් කරනවා ලස්සනට
+  const priceValueEl = document.getElementById('price-value');
+  if (priceValueEl) {
+    priceValueEl.innerText = `Rs. ${currentMaxPrice.toLocaleString()}`;
+  }
+  
+  // දැනට තියෙන කැටගරි එකට අනුව බඩු ටික ආයෙත් ෆිල්ටර් කරලා Grid එකට ලෝඩ් කරනවා
+  filterAndRender();
+}
+
+// 🔥 [අලුතින්ම එකතු කළා] - කැටගරි එක සහ මිල දෙකම එකතු කරලා ෆිල්ටර් කරන පොදු ෆන්ක්ෂන් එක
+function filterAndRender() {
+  let filtered = allFetchedItems;
+
+  // 1. මුලින්ම කැටගරි එක අනුව වෙන් කරගන්නවා
+  if (currentSelectedCategory === 'all') {
+    filtered = allFetchedItems.filter(item => item.category !== 'diamonds' && item.category !== 'diamond');
+  } else {
+    filtered = allFetchedItems.filter(item => {
+      if (currentSelectedCategory === 'diamonds') {
+        return item.category === 'diamonds' || item.category === 'diamond';
+      }
+      return item.category === currentSelectedCategory;
+    });
+  }
+
+  // 2. ඊට පස්සේ යූසර් Slider එකෙන් දාපු උපරිම මිලට වඩා අඩු බඩු විතරක් ඉතිරි කරගන්නවා
+  filtered = filtered.filter(item => {
+    const itemPrice = parseInt(item.price);
+    return itemPrice <= currentMaxPrice;
+  });
+
+  // 3. අවසාන වශයෙන් Grid එකට යවනවා පෙන්වන්න
+  renderGrid(filtered);
 }
 
 async function fetchProducts(category = 'all') {
@@ -76,27 +118,13 @@ async function fetchProducts(category = 'all') {
       allFetchedItems = mockData;
     }
     
-    if (category === 'all') {
-      const accountsOnly = allFetchedItems.filter(item => item.category !== 'diamonds' && item.category !== 'diamond');
-      renderGrid(accountsOnly);
-    } else {
-      const filtered = allFetchedItems.filter(item => {
-        if (category === 'diamonds') {
-          return item.category === 'diamonds' || item.category === 'diamond';
-        }
-        return item.category === category;
-      });
-      renderGrid(filtered);
-    }
+    // සර්වර් එකෙන් ඩේටා ආවට පස්සේ අලුත් ෆිල්ටර් සිස්ටම් එක හරහා රෙන්ඩර් කරනවා
+    filterAndRender();
+
   } catch (err) {
     allFetchedItems = mockData; 
-    if (category === 'all') {
-      const accountsOnly = mockData.filter(item => item.category !== 'diamonds' && item.category !== 'diamond');
-      renderGrid(accountsOnly);
-    } else {
-      const filtered = mockData.filter(item => item.category === 'diamonds' || item.category === 'diamond');
-      renderGrid(filtered);
-    }
+    // Error එකක් ආවොත් MockData ටික අරන් ෆිල්ටර් සිස්ටම් එකටම දානවා
+    filterAndRender();
   }
 }
 
@@ -105,12 +133,10 @@ function renderGrid(items) {
   grid.innerHTML = "";
   
   let displayItems = items;
-  if (currentSelectedCategory === 'all') {
-    displayItems = items.filter(item => item.category !== 'diamonds' && item.category !== 'diamond');
-  }
 
+  // 💡 [අප්ඩේට් කළා] - මිල ගැලපෙන බඩු කිසිවක් නැත්නම් ලස්සන මැසේජ් එකක් දානවා
   if (displayItems.length === 0) {
-    grid.innerHTML = '<div class="loading">No listings available at the moment.</div>';
+    grid.innerHTML = '<div class="loading" style="text-align:center; width:100%; grid-column: 1/-1; color:#6c757d; padding:40px 0;">ඔය මිල ගණන් යටතේ දැනට බඩු කිසිවක් නොමැත.</div>';
     return;
   }
   
@@ -161,7 +187,6 @@ function createCardElement(item, grid) {
       : `<span>Type: <strong>👑 ${item.diamondCount || 'Membership'}</strong></span>`;
   }
 
-  // 🔥 [නියම ෆික්ස් එක]: කැටගරි එක Diamonds නම් (Gems + Membership දෙකටම) Title එක පෙන්වනවා, Account වලට පෙන්වන්නේ නැහැ.
   let cardTitleHTML = '';
   if (isDiamond) {
     cardTitleHTML = `<h4 class="card-item-title" style="color: #fff; font-size: 0.95rem; margin: 5px 0; font-weight: 600; font-family: 'Poppins', sans-serif; opacity: 0.9;">${item.title}</h4>`;
@@ -181,7 +206,7 @@ function createCardElement(item, grid) {
       <img src="${item.image}" alt="${item.title}" style="width:100%; height:100%; object-fit:cover;">
     </div>
     <div class="card-content">
-      ${cardTitleHTML} <!-- 💡 දියමන්ති ස්ටෝර් එකේ හැම බඩුවකටම මෙතනින් Title එක වැටෙනවා මචං -->
+      ${cardTitleHTML}
       <div class="meta-info">${metaHTML}</div>
       <div class="price-row">
         <div class="price">LKR ${item.price.toLocaleString()}</div>
@@ -242,7 +267,7 @@ function openProductModal(itemId) {
     } else if (item.category === 'tiktok') {
       specsContainer.innerHTML = `<div><strong>Followers:</strong> ${item.followers || 'N/A'}</div>`;
       whatsappDetails = `🎵 Followers: ${item.followers || 'N/A'}`;
-    } else if (item.category === 'diamonds') {
+    } else if (item.category === 'diamonds' || item.category === 'diamond') {
       const isItemGem = item.isGems || (item._id && item._id.startsWith('gem_'));
       if (isItemGem) {
         specsContainer.innerHTML = `<div><strong>Top-Up Type:</strong> Direct Gems (Player ID)</div>`;
@@ -285,7 +310,6 @@ function openProductModal(itemId) {
 function openAboutModal(event) {
   if (event) event.preventDefault(); // Page එක උඩට රීෆ්‍රෙෂ් වෙන එක නවත්තන්න
   
-  // කලින් Sidebar එක open වෙලා තියෙන නිසා ඒක close කරනවා
   const sidebar = document.getElementById("sidebar");
   const sidebarOverlay = document.getElementById("sidebar-overlay");
   if (sidebar) sidebar.classList.remove("open");
@@ -294,9 +318,8 @@ function openAboutModal(event) {
     setTimeout(() => sidebarOverlay.style.display = "none", 300);
   }
 
-  // About Modal එක සහ බැක්ග්‍රවුන්ඩ් බ්ලර් එක active කරනවා
   const aboutModal = document.getElementById('aboutModal');
-  const modalOverlay = document.getElementById('modal-overlay'); // ඔයාගේ පරණ බ්ලර් overlay එකමයි පාවිච්චි කරන්නේ
+  const modalOverlay = document.getElementById('modal-overlay');
   
   if (aboutModal) aboutModal.classList.add('active');
   if (modalOverlay) modalOverlay.classList.add('active');
