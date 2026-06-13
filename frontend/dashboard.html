@@ -9,63 +9,63 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <style>
-    /* මුළු පිටුවම කළු/තද නිල් කිරීමට background එක force කර ඇත */
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
     
-    html, body { background-color: #0a0a14 !important; background: #0a0a14 !important; color: #fff; min-height: 100vh; }
+    /* ප්‍රධාන පසුබිම සම්පූර්ණයෙන්ම සුදු සහ ලා අළු පාට කර ඇත */
+    html, body { background-color: #f4f6f9 !important; background: #f4f6f9 !important; color: #333; min-height: 100vh; }
     body { padding: 20px; }
     
     .dashboard-container { max-width: 900px; margin: 0 auto; }
     
-    /* Header Styles (Dark background with subtle border) */
-    header { display: flex; justify-content: space-between; align-items: center; background: #111122; padding: 15px 25px; border-radius: 12px; border: 1px solid #1f1f3a; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-    .logo { font-family: 'Orbitron', sans-serif; color: #007bff; font-weight: 800; font-size: 20px; text-shadow: 0 0 15px rgba(0, 123, 255, 0.6); }
+    /* Header Styles (Clean White with Soft Shadow) */
+    header { display: flex; justify-content: space-between; align-items: center; background: #ffffff; padding: 15px 25px; border-radius: 12px; border: 1px solid #e1e8ed; margin-bottom: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+    .logo { font-family: 'Orbitron', sans-serif; color: #007bff; font-weight: 800; font-size: 20px; text-shadow: 0 0 10px rgba(0, 123, 255, 0.2); }
     .user-info { display: flex; align-items: center; gap: 15px; }
-    .user-name { font-size: 14px; font-weight: 600; color: #fff; }
-    .logout-btn { background: rgba(255, 65, 108, 0.1); border: 1px solid #ff416c; color: #ff416c; padding: 8px 15px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; transition: 0.3s; }
-    .logout-btn:hover { background: #ff416c; color: #fff; box-shadow: 0 0 15px rgba(255, 65, 108, 0.5); }
+    .user-name { font-size: 14px; font-weight: 600; color: #495057; }
+    .logout-btn { background: rgba(255, 65, 108, 0.05); border: 1px solid #ff416c; color: #ff416c; padding: 8px 15px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; transition: 0.3s; }
+    .logout-btn:hover { background: #ff416c; color: #fff; box-shadow: 0 4px 10px rgba(255, 65, 108, 0.2); }
     
     /* Dashboard Grid Layout */
     .grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 25px; }
     @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
     
-    /* Left Column: Wallet Balance Card (Neon Glow Effect) */
-    .wallet-card { background: #111122; padding: 40px 20px; border-radius: 16px; border: 1px solid #007bff; text-align: center; box-shadow: 0 0 25px rgba(0, 123, 255, 0.25); display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; overflow: hidden; }
+    /* Left Column: Wallet Balance Card (Clean White & Blue Accent) */
+    .wallet-card { background: #ffffff; padding: 40px 20px; border-radius: 16px; border: 1px solid #e1e8ed; text-align: center; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; overflow: hidden; }
     .wallet-card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: linear-gradient(180deg, #007bff, #00c6ff); }
-    .wallet-card i { font-size: 50px; color: #00c6ff; margin-bottom: 15px; text-shadow: 0 0 20px rgba(0, 198, 255, 0.5); }
-    .wallet-card h3 { font-size: 12px; color: #8f8fbc; font-weight: 600; letter-spacing: 1px; margin-bottom: 8px; }
-    .balance { font-family: 'Orbitron', sans-serif; font-size: 34px; font-weight: 800; color: #fff; text-shadow: 0 0 10px rgba(0, 198, 255, 0.3); }
+    .wallet-card i { font-size: 50px; color: #007bff; margin-bottom: 15px; }
+    .wallet-card h3 { font-size: 12px; color: #6c757d; font-weight: 600; letter-spacing: 1px; margin-bottom: 8px; }
+    .balance { font-family: 'Orbitron', sans-serif; font-size: 34px; font-weight: 800; color: #212529; }
     
     /* Right Column: Deposit Section */
-    .deposit-card { background: #111122; padding: 30px; border-radius: 16px; border: 1px solid #1f1f3a; box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
-    .deposit-card h2 { font-family: 'Orbitron', sans-serif; font-size: 20px; color: #007bff; margin-bottom: 20px; font-weight: 800; letter-spacing: 1px; text-shadow: 0 0 10px rgba(0, 123, 255, 0.3); }
+    .deposit-card { background: #ffffff; padding: 30px; border-radius: 16px; border: 1px solid #e1e8ed; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); }
+    .deposit-card h2 { font-family: 'Orbitron', sans-serif; font-size: 20px; color: #007bff; margin-bottom: 20px; font-weight: 800; letter-spacing: 1px; }
     
-    /* Instruction Box (Very Dark Blue) */
-    .ezcash-instruction { background: #07070f; border: 1px dashed #00c6ff; padding: 18px; border-radius: 8px; margin-bottom: 25px; display: flex; align-items: flex-start; gap: 15px; }
-    .ezcash-instruction i { font-size: 24px; color: #00c6ff; margin-top: 3px; }
-    .ezcash-details p { font-size: 13px; color: #b4b4d0; font-weight: 400; line-height: 1.6; }
-    .ezcash-number { font-size: 19px; font-weight: 700; color: #fff; letter-spacing: 1px; margin-top: 15px; background: rgba(0, 198, 255, 0.1); padding: 5px 12px; border-radius: 6px; display: inline-block; border: 1px solid rgba(0, 198, 255, 0.2); }
+    /* Instruction Box (Light Blue Background) */
+    .ezcash-instruction { background: #f0f7ff; border: 1px dashed #007bff; padding: 18px; border-radius: 8px; margin-bottom: 25px; display: flex; align-items: flex-start; gap: 15px; }
+    .ezcash-instruction i { font-size: 24px; color: #007bff; margin-top: 3px; }
+    .ezcash-details p { font-size: 13px; color: #495057; font-weight: 500; line-height: 1.6; }
+    .ezcash-number { font-size: 19px; font-weight: 700; color: #007bff; letter-spacing: 1px; margin-top: 15px; background: rgba(0, 123, 255, 0.1); padding: 5px 12px; border-radius: 6px; display: inline-block; }
     
     /* Form Styles */
     .form-group { margin-bottom: 20px; }
-    label { font-size: 11px; color: #8f8fbc; display: block; margin-bottom: 8px; font-weight: 600; letter-spacing: 0.5px; }
-    input { width: 100%; padding: 12px; background: #07070f; border: 1px solid #2a2a4a; border-radius: 8px; color: #fff; font-weight: 600; font-size: 14px; transition: 0.3s; }
-    input:focus { border-color: #007bff; outline: none; box-shadow: 0 0 10px rgba(0, 123, 255, 0.3); background: #090914; }
+    label { font-size: 11px; color: #495057; display: block; margin-bottom: 8px; font-weight: 600; letter-spacing: 0.5px; }
+    input { width: 100%; padding: 12px; background: #ffffff; border: 1px solid #ced4da; border-radius: 8px; color: #212529; font-weight: 600; font-size: 14px; transition: 0.3s; }
+    input:focus { border-color: #007bff; outline: none; box-shadow: 0 0 8px rgba(0, 123, 255, 0.15); background: #ffffff; }
     
-    /* Custom File Upload Button (Dark style) */
-    .file-upload-wrapper { position: relative; background: #07070f; border: 1px dashed #2a2a4a; border-radius: 8px; padding: 20px; text-align: center; cursor: pointer; transition: 0.3s; }
-    .file-upload-wrapper:hover { border-color: #007bff; background: rgba(0, 123, 255, 0.04); }
-    .file-upload-wrapper i { font-size: 24px; color: #4e4e75; margin-bottom: 8px; transition: 0.3s; }
-    .file-upload-wrapper p { font-size: 12px; color: #8f8fbc; font-weight: 500; }
+    /* Custom File Upload Button (Light Style) */
+    .file-upload-wrapper { position: relative; background: #f8f9fa; border: 1px dashed #ced4da; border-radius: 8px; padding: 20px; text-align: center; cursor: pointer; transition: 0.3s; }
+    .file-upload-wrapper:hover { border-color: #007bff; background: rgba(0, 123, 255, 0.02); }
+    .file-upload-wrapper i { font-size: 24px; color: #6c757d; margin-bottom: 8px; transition: 0.3s; }
+    .file-upload-wrapper p { font-size: 12px; color: #6c757d; font-weight: 500; }
     .file-upload-wrapper input[type="file"] { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
     
     .submit-btn { width: 100%; padding: 14px; background: linear-gradient(45deg, #007bff, #00c6ff); border: none; border-radius: 8px; color: #fff; font-weight: 700; font-size: 14px; cursor: pointer; margin-top: 10px; transition: 0.3s; letter-spacing: 0.5px; }
-    .submit-btn:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 5px 20px rgba(0, 123, 255, 0.5); }
+    .submit-btn:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3); }
     
     /* Alerts */
     .alert { padding: 12px; border-radius: 6px; font-size: 12px; font-weight: 500; text-align: center; margin-top: 15px; display: none; }
-    .alert-error { background: rgba(255, 65, 108, 0.15); border: 1px solid #ff416c; color: #ff416c; }
-    .alert-success { background: rgba(40, 167, 69, 0.15); border: 1px solid #28a745; color: #28a745; }
+    .alert-error { background: #fff5f5; border: 1px solid #ff416c; color: #ff416c; }
+    .alert-success { background: #f0fff4; border: 1px solid #28a745; color: #28a745; }
   </style>
 </head>
 <body>
@@ -76,7 +76,7 @@
     <header>
       <div class="logo">RICKEY STORE</div>
       <div class="user-info">
-        <span class="user-name" id="user-email-display"><i class="fa-solid fa-user-circle" style="margin-right: 5px; color: #00c6ff;"></i> Loading...</span>
+        <span class="user-name" id="user-email-display"><i class="fa-solid fa-user-circle" style="margin-right: 5px; color: #007bff;"></i> Loading...</span>
         <button class="logout-btn" id="logout-btn">LOGOUT <i class="fa-solid fa-sign-out-alt"></i></button>
       </div>
     </header>
@@ -100,7 +100,7 @@
           <i class="fa-solid fa-mobile-screen-button"></i>
           <div class="ezcash-details">
             <p>පහත සඳහන් Ez Cash අංකයට මුදල් තැන්පත් කර, එම රිසිට්පතෙහි ඡායාරූපය සහ Transaction ID එක මෙහි ඇතුළත් කරන්න.</p>
-            <div class="ezcash-number">📞 Ez Cash No: <span style="color: #00c6ff;">07XXXXXXXX</span></div> <!-- ⚠️ මෙතනට ඔයාගේ EzCash No එක දාන්න මචං -->
+            <div class="ezcash-number">📞 Ez Cash No: <span style="color: #007bff;">07XXXXXXXX</span></div> <!-- ⚠️ මෙතනට ඔයාගේ EzCash No එක දාන්න මචං -->
           </div>
         </div>
         
@@ -160,7 +160,7 @@
     // 🔒 USER AUTH CHECK
     auth.onAuthStateChanged((user) => {
       if (user) {
-        document.getElementById('user-email-display').innerHTML = `<i class="fa-solid fa-user-circle" style="margin-right: 5px; color: #00c6ff;"></i> ${user.email}`;
+        document.getElementById('user-email-display').innerHTML = `<i class="fa-solid fa-user-circle" style="margin-right: 5px; color: #007bff;"></i> ${user.email}`;
       } else {
         window.location.href = "login.html";
       }
@@ -170,7 +170,7 @@
     document.getElementById('deposit-file').addEventListener('change', (e) => {
       const fileName = e.target.files[0] ? e.target.files[0].name : "Click or Drag & Drop your Receipt Image";
       document.getElementById('upload-text').innerText = fileName;
-      document.getElementById('upload-icon').style.color = "#00c6ff";
+      document.getElementById('upload-icon').style.color = "#007bff";
     });
 
     // 📥 DEPOSIT FORM SUBMISSION
@@ -184,7 +184,7 @@
       
       document.getElementById('deposit-form').reset();
       document.getElementById('upload-text').innerText = "Click or Drag & Drop your Receipt Image";
-      document.getElementById('upload-icon').style.color = "#555";
+      document.getElementById('upload-icon').style.color = "#6c757d";
     });
 
     // 🚪 LOGOUT BUTTON LOGIC
