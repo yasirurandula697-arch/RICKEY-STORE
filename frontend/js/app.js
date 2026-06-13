@@ -57,7 +57,6 @@ async function fetchProducts(category = 'all') {
     let data = await response.json();
     
     if (data && data.length > 0) {
-      // 1. සර්වර් එකෙන් එන ඩේටා වල gem_ කියලා තිබ්බොත් ඒවට isGems: true දානවා
       data = data.map(item => {
         if (item._id && item._id.startsWith('gem_')) {
           item.isGems = true;
@@ -65,8 +64,6 @@ async function fetchProducts(category = 'all') {
         return item;
       });
       
-      // 💡 [ප්‍රධානම ෆික්ස් එක]: සර්වර් ලිස්ට් එකට එකතු කරන්නේ MockData එකේ තියෙන GEMS PACKS විතරයි!
-      // මේ නිසා කිසිම මෙම්බර්ෂිප් එකක් ආයෙත් ඩබල් වෙලා වැටෙන්නේ නැහැ මචං.
       const onlyGemsFromMock = mockData.filter(mockItem => mockItem.isGems === true);
       
       onlyGemsFromMock.forEach(gemItem => {
@@ -118,15 +115,11 @@ function renderGrid(items) {
   }
   
   if (currentSelectedCategory === 'diamonds') {
-    // 💡 [පිරිසිදු බෙදාගැනීම]: ID එක gem_ වලින් පටන් ගන්නා හෝ isGems:true තියෙන ඔක්කොම Gems වලට වෙන් කරනවා.
-    // ඉතිරි ඔක්කොම (සර්වර් එකෙන් ආපු සහ මොක් එකේ තියෙන) පිරිසිදු මෙම්බර්ෂිප් විදිහට ගන්නවා.
     const memberships = displayItems.filter(item => !item.isGems && !(item._id && item._id.startsWith('gem_')));
     const gemsPacks = displayItems.filter(item => item.isGems || (item._id && item._id.startsWith('gem_')));
 
-    // 1. Memberships කාඩ් ටික විතරක් මුලින්ම පෙන්වනවා
     memberships.forEach(item => createCardElement(item, grid));
 
-    // 2. මැදින් ලස්සන Divider එක සහ Heading එක දානවා
     if (gemsPacks.length > 0) {
       const divider = document.createElement("div");
       divider.style.gridColumn = "1 / -1"; 
@@ -136,7 +129,6 @@ function renderGrid(items) {
       `;
       grid.appendChild(divider);
 
-      // 3. හරස් ඉරට යටින් Gems කාඩ් ටික විතරක් ලස්සනට පෙන්වනවා
       gemsPacks.forEach(item => createCardElement(item, grid));
     }
   } else {
@@ -145,7 +137,7 @@ function renderGrid(items) {
 }
 
 function createCardElement(item, grid) {
-  const isDiamond = item.category === 'diamonds';
+  const isDiamond = item.category === 'diamonds' || item.category === 'diamond';
   const isSold = item.status === 'sold';
   
   const card = document.createElement("div");
@@ -162,12 +154,17 @@ function createCardElement(item, grid) {
     metaHTML = `<span>Subs: <strong>${item.subscribers || '0'}</strong></span>`;
   } else if (item.category === 'tiktok') {
     metaHTML = `<span>Followers: <strong>${item.followers || '0'}</strong></span>`;
-  } else if (item.category === 'diamonds') {
-    // 💡 කාඩ් එක ඇතුළේ ලේබල් එකත් ID එකෙන් චෙක් කරලා නිවැරදිව දානවා
+  } else if (item.category === 'diamonds' || item.category === 'diamond') {
     const checkGems = item.isGems || (item._id && item._id.startsWith('gem_'));
     metaHTML = checkGems 
       ? `<span>Gems Pack: <strong>💎 ${item.diamondCount || 'Instant'}</strong></span>`
       : `<span>Type: <strong>👑 ${item.diamondCount || 'Membership'}</strong></span>`;
+  }
+
+  // 🔥 [නියම ෆික්ස් එක]: කැටගරි එක Diamonds නම් (Gems + Membership දෙකටම) Title එක පෙන්වනවා, Account වලට පෙන්වන්නේ නැහැ.
+  let cardTitleHTML = '';
+  if (isDiamond) {
+    cardTitleHTML = `<h4 class="card-item-title" style="color: #fff; font-size: 0.95rem; margin: 5px 0; font-weight: 600; font-family: 'Poppins', sans-serif; opacity: 0.9;">${item.title}</h4>`;
   }
 
   const buttonHTML = isSold 
@@ -184,6 +181,7 @@ function createCardElement(item, grid) {
       <img src="${item.image}" alt="${item.title}" style="width:100%; height:100%; object-fit:cover;">
     </div>
     <div class="card-content">
+      ${cardTitleHTML} <!-- 💡 දියමන්ති ස්ටෝර් එකේ හැම බඩුවකටම මෙතනින් Title එක වැටෙනවා මචං -->
       <div class="meta-info">${metaHTML}</div>
       <div class="price-row">
         <div class="price">LKR ${item.price.toLocaleString()}</div>
