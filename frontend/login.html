@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rickey Store | Login & Register</title>
+  <!-- Google Fonts & FontAwesome Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    body { background: #0f0f1e; color: #fff; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+    
+    .auth-container { background: #1a1a2e; width: 100%; max-width: 420px; padding: 35px 30px; border-radius: 16px; border: 1px solid #007bff; box-shadow: 0 0 25px rgba(0, 123, 255, 0.25); position: relative; overflow: hidden; }
+    .auth-container::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: linear-gradient(90deg, #007bff, #00c6ff); }
+    
+    h2 { text-align: center; font-family: 'Orbitron', sans-serif; color: #007bff; margin-bottom: 25px; letter-spacing: 1.5px; font-weight: 800; font-size: 26px; text-shadow: 0 0 10px rgba(0, 123, 255, 0.5); }
+    .form-group { margin-bottom: 18px; position: relative; }
+    label { font-size: 11px; color: #a2a2a2; display: block; margin-bottom: 6px; font-weight: 600; letter-spacing: 0.5px; }
+    
+    .input-wrapper { position: relative; display: flex; align-items: center; }
+    .input-wrapper i { position: absolute; left: 12px; color: #555; font-size: 14px; transition: 0.3s; }
+    
+    input { width: 100%; padding: 12px 12px 12px 40px; background: #0f0f1e; border: 1px solid #2a2a4a; border-radius: 8px; color: #fff; font-weight: 500; font-size: 14px; transition: 0.3s; }
+    input:focus { border-color: #007bff; outline: none; box-shadow: 0 0 8px rgba(0, 123, 255, 0.2); }
+    input:focus + i { color: #007bff; }
+    
+    .auth-btn { width: 100%; padding: 12px; background: linear-gradient(45deg, #007bff, #00c6ff); border: none; border-radius: 8px; color: #fff; font-weight: 600; font-size: 14px; cursor: pointer; margin-top: 10px; transition: 0.3s; letter-spacing: 0.5px; }
+    .auth-btn:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 5px 15px rgba(0, 123, 255, 0.4); }
+    
+    .divider { margin: 20px 0; text-align: center; color: #555; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 10px; }
+    .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: #2a2a4a; }
+    
+    .google-btn { width: 100%; padding: 12px; background: #fff; color: #000; border: none; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s; }
+    .google-btn:hover { background: #f1f1f1; transform: translateY(-1px); box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1); }
+    .google-btn img { width: 18px; }
+    
+    .switch-text { text-align: center; font-size: 13px; color: #a2a2a2; margin-top: 20px; }
+    .switch-text a { color: #007bff; text-decoration: none; font-weight: 600; transition: 0.3s; }
+    .switch-text a:hover { color: #00c6ff; text-decoration: underline; }
+    
+    .error-msg { background: rgba(255, 65, 108, 0.1); border: 1px solid #ff416c; color: #ff416c; padding: 10px; border-radius: 6px; font-size: 12px; margin-top: 15px; display: none; text-align: center; font-weight: 500; }
+    .success-msg { background: rgba(40, 167, 69, 0.1); border: 1px solid #28a745; color: #28a745; padding: 10px; border-radius: 6px; font-size: 12px; margin-top: 15px; display: none; text-align: center; font-weight: 500; }
+  </style>
+</head>
+<body>
+
+  <div class="auth-container">
+    <h2 id="auth-title">LOGIN</h2>
+    
+    <!-- 1. LOGIN FORM -->
+    <form id="login-form">
+      <div class="form-group">
+        <label>EMAIL ADDRESS</label>
+        <div class="input-wrapper">
+          <input type="email" id="login-email" required placeholder="example@gmail.com">
+          <i class="fa-solid fa-envelope"></i>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>PASSWORD</label>
+        <div class="input-wrapper">
+          <input type="password" id="login-password" required placeholder="••••••••">
+          <i class="fa-solid fa-lock"></i>
+        </div>
+      </div>
+      <button type="submit" class="auth-btn">LET'S PLAY 🎮</button>
+      <p class="switch-text">Don't have an account? <a href="#" onclick="toggleAuth(event, 'register')">Register Now</a></p>
+    </form>
+
+    <!-- 2. REGISTER FORM (Hidden by Default) -->
+    <form id="register-form" style="display: none;">
+      <div class="form-group">
+        <label>FULL NAME</label>
+        <div class="input-wrapper">
+          <input type="text" id="reg-name" required placeholder="John Doe">
+          <i class="fa-solid fa-user"></i>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>EMAIL ADDRESS</label>
+        <div class="input-wrapper">
+          <input type="email" id="reg-email" required placeholder="example@gmail.com">
+          <i class="fa-solid fa-envelope"></i>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>PASSWORD</label>
+        <div class="input-wrapper">
+          <input type="password" id="reg-password" required placeholder="Minimum 6 characters">
+          <i class="fa-solid fa-lock"></i>
+        </div>
+      </div>
+      <button type="submit" class="auth-btn">CREATE ACCOUNT 🔥</button>
+      <p class="switch-text">Already have an account? <a href="#" onclick="toggleAuth(event, 'login')">Login Here</a></p>
+    </form>
+    
+    <!-- 3. GOOGLE LOGIN BUTTON -->
+    <div class="divider">OR</div>
+    <button type="button" id="google-login-btn" class="google-btn">
+      <img src="https://fonts.gstatic.com/s/i/productlogos/googleg/v6/web-24dp/copy_v6_R_o_D_r_b_m_e_m_b_e_r_9_e_r.svg" alt="Google">
+      Continue with Google
+    </button>
+    
+    <!-- Status Notifications -->
+    <div id="global-error" class="error-msg"></div>
+    <div id="global-success" class="success-msg"></div>
+  </div>
+
+  <!-- ================= FIREBASE CORE SDK & AUTH SDK ================= -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+
+  <script>
+    // ⚠️ YOUR FIREBASE CONFIG HERE
+    // firebase.google.com එකෙන් ඔයාගේ ප්‍රොජෙක්ට් එකේ Config ටික අරන් මෙතනට පේස්ට් කරන්න:
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_AUTH_DOMAIN",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_STORAGE_BUCKET",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    // Firebase Initialize කිරීම
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    const errorEl = document.getElementById('global-error');
+    const successEl = document.getElementById('global-success');
+
+    function resetAlerts() {
+      errorEl.style.display = 'none';
+      successEl.style.display = 'none';
+    }
+
+    // Login සහ Register Forms මාරු කරන ලොජික් එක
+    function toggleAuth(e, mode) {
+      e.preventDefault();
+      const loginForm = document.getElementById('login-form');
+      const registerForm = document.getElementById('register-form');
+      const title = document.getElementById('auth-title');
+      resetAlerts();
+
+      if(mode === 'register') {
+        loginForm.style.display = 'none';
+        registerForm.style.display = 'block';
+        title.innerText = 'REGISTER';
+      } else {
+        loginForm.style.display = 'block';
+        registerForm.style.display = 'none';
+        title.innerText = 'LOGIN';
+      }
+    }
+
+    // 📩 1. EMAIL & PASSWORD - ACCOUNT REGISTER
+    document.getElementById('register-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      resetAlerts();
+      
+      const email = document.getElementById('reg-email').value.trim();
+      const password = document.getElementById('reg-password').value;
+      const name = document.getElementById('reg-name').value.trim();
+
+      if (password.length < 6) {
+        errorEl.style.display = 'block';
+        errorEl.innerText = "❌ Password should be at least 6 characters!";
+        return;
+      }
+
+      auth.createUserWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          // සාර්ථකව එකවුන්ට් එක හැදුනට පස්සේ Verification Email එක යවනවා
+          auth.currentUser.sendEmailVerification()
+            .then(() => {
+              successEl.style.display = 'block';
+              successEl.innerText = "🔥 Verification link sent! Please check your email inbox (and spam folder) to activate your account.";
+              document.getElementById('register-form').reset();
+              setTimeout(() => toggleAuth(e, 'login'), 5000);
+            });
+        })
+        .catch((error) => {
+          errorEl.style.display = 'block';
+          errorEl.innerText = "❌ " + error.message;
+        });
+    });
+
+    // 🔑 2. EMAIL & PASSWORD - LOGIN
+    document.getElementById('login-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      resetAlerts();
+      
+      const email = document.getElementById('login-email').value.trim();
+      const password = document.getElementById('login-password').value;
+
+      auth.signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          
+          // 🚨 ඊමේල් එක Verify කරලා නැත්නම් ඇතුලට ගන්න බෑ
+          if (!user.emailVerified) {
+            errorEl.style.display = 'block';
+            errorEl.innerText = "⚠️ Your email is not verified yet! Please click the link sent to your email.";
+            auth.signOut();
+          } else {
+            // 🥳 සාර්ථකයි! යූසර්ව Dashboard එකට යවනවා
+            window.location.href = "dashboard.html"; 
+          }
+        })
+        .catch((error) => {
+          errorEl.style.display = 'block';
+          errorEl.innerText = "❌ " + error.message;
+        });
+    });
+
+    // 🌐 3. GOOGLE ONE-CLICK LOGIN
+    document.getElementById('google-login-btn').addEventListener('click', () => {
+      resetAlerts();
+      const provider = new firebase.auth.GoogleAuthProvider();
+
+      auth.signInWithPopup(provider)
+        .then((result) => {
+          // Google එකෙන් එන අය ඔටෝම Verify නිසා කෙලින්ම Dashboard යවනවා
+          window.location.href = "dashboard.html";
+        })
+        .catch((error) => {
+          errorEl.style.display = 'block';
+          errorEl.innerText = "❌ " + error.message;
+        });
+    });
+  </script>
+</body>
+</html>
