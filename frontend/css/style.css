@@ -174,6 +174,15 @@ header {
   border-bottom: 1px solid #e9ecef;
 }
 
+<!-- Price Filter Section -->
+<div class="filter-section-row" style="display: flex; justify-content: center; margin: 20px 0; padding: 0 5%;">
+    <div class="price-filter-wrapper" style="background: #ffffff; padding: 15px 25px; border-radius: 15px; border: 1px solid #e9ecef; box-shadow: 0 2px 10px rgba(0,0,0,0.03); display: flex; align-items: center; gap: 15px;">
+        <span style="font-size: 13px; font-weight: 600; color: #6c757d;">Max Price:</span>
+        <input type="range" id="price-slider" min="0" max="10000" step="500" value="10000" oninput="updatePriceFilter(this.value)" style="width: 150px;">
+        <span id="price-value" style="font-weight: 700; color: #007bff; font-size: 14px; min-width: 80px;">Any Price</span>
+    </div>
+</div>
+
 .hero h1 {
   font-size: 32px;
   font-weight: 700;
