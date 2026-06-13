@@ -281,6 +281,36 @@ function openProductModal(itemId) {
   if (overlayEl) overlayEl.classList.add('active');
 }
 
+// About Us Modal එක Open කරන්න
+function openAboutModal(event) {
+  if (event) event.preventDefault(); // Page එක උඩට රීෆ්‍රෙෂ් වෙන එක නවත්තන්න
+  
+  // කලින් Sidebar එක open වෙලා තියෙන නිසා ඒක close කරනවා
+  const sidebar = document.getElementById("sidebar");
+  const sidebarOverlay = document.getElementById("sidebar-overlay");
+  if (sidebar) sidebar.classList.remove("open");
+  if (sidebarOverlay) {
+    sidebarOverlay.classList.remove("active");
+    setTimeout(() => sidebarOverlay.style.display = "none", 300);
+  }
+
+  // About Modal එක සහ බැක්ග්‍රවුන්ඩ් බ්ලර් එක active කරනවා
+  const aboutModal = document.getElementById('aboutModal');
+  const modalOverlay = document.getElementById('modal-overlay'); // ඔයාගේ පරණ බ්ලර් overlay එකමයි පාවිච්චි කරන්නේ
+  
+  if (aboutModal) aboutModal.classList.add('active');
+  if (modalOverlay) modalOverlay.classList.add('active');
+}
+
+// About Us Modal එක Close කරන්න
+function closeAboutModal() {
+  const aboutModal = document.getElementById('aboutModal');
+  const modalOverlay = document.getElementById('modal-overlay');
+  
+  if (aboutModal) aboutModal.classList.remove('active');
+  if (modalOverlay) modalOverlay.classList.remove('active');
+}
+
 function closeModal() {
   const modalEl = document.getElementById('productModal');
   const overlayEl = document.getElementById('modal-overlay');
