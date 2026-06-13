@@ -145,16 +145,14 @@
     }
 
     // 🔒 USER SECURITY CHECK (ලෙඩේ නිවැරදි කරන ලදි)
+// 🔒 USER SECURITY CHECK (ලොගින් ලූප් එක සම්පූර්ණයෙන්ම විසඳන ලදි)
     auth.onAuthStateChanged((user) => {
       if (user) {
-        // චෙක් කරනවා Google ද නැත්නම් පරණ විදිහට Email ආපු කෙනෙක්ද කියලා
-        const isGoogleUser = user.providerData.some(p => p.providerId === 'google.com');
-        
-        if (isGoogleUser || user.emailVerified) {
-          // Google කෙනෙක් නම් හෝ Email Verify කරලා නම් Dashboard එකට යවනවා
+        // ක්‍රම 2න් මොකකින් ආවත්, යූසර්ගේ ඊමේල් එක Verify නම් (Google අයගේ default verify වෙනවා) ඩෑෂ්බෝඩ් එකට යවනවා
+        if (user.emailVerified) {
           window.location.href = "dashboard.html";
         } else {
-          // Email Verify කරලා නැති අයව විතරක් බ්ලොක් කරනවා
+          // Email/Password වලින් ඇවිත් තවම Verify කරලා නැති අයව විතරක් බ්ලොක් කරනවා
           errorEl.style.display = 'block';
           errorEl.innerText = "⚠️ Your email is not verified yet! Please check your email inbox.";
           auth.signOut();
