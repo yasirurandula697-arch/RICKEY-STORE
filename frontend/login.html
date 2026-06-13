@@ -145,32 +145,29 @@
       }
     }
 
-    // 🔒 USER SECURITY CHECK (පසුබිම් signOut ලූප් එක සම්පූර්ණයෙන්ම ඉවත් කර සරල කරන ලදි)
+    // 🔒 USER SECURITY CHECK (Redirect වෙලා එන ලොගින් එකත් මෙතනින්ම අල්ලගන්නවා)
     auth.onAuthStateChanged((user) => {
       if (user) {
-        // ලොග් වෙලා ඉන්නවා නම් කෙලින්ම dashboard එකට යවනවා.
-        // සෙකියුරිටි සහ ඊමේල් වෙරිෆිකේෂන් චෙක් කිරීම් dashboard.html එකෙන් සහ Form submission එකෙන් බලාගන්නා නිසා මෙතන signOut කරන්නේ නැත.
+        // ලොග් වෙලා ඉන්නවා නම් කෙලින්ම dashboard එකට යවනවා
         window.location.href = "dashboard.html";
       }
     });
 
-    // 🌐 3. GOOGLE POPUP LOGIN
+    // 🌐 3. GOOGLE REDIRECT LOGIN (කිසිම Popup එකක් නැති නිසා Error එන්නේ නැත)
     document.getElementById('google-login-btn').addEventListener('click', () => {
       resetAlerts();
       const provider = new firebase.auth.GoogleAuthProvider();
       
-      auth.signInWithPopup(provider)
-        .then((result) => {
-          if (result.user) {
-            window.location.href = "dashboard.html";
-          }
-        })
+      // Popup වෙනුවට Redirect ක්‍රමය පාවිච්චි කරමු
+      auth.signInWithRedirect(provider)
         .catch((error) => {
           console.error(error);
           errorEl.style.display = 'block';
           errorEl.innerText = "❌ " + error.message;
         });
     });
+
+    
 
     // 📩 1. EMAIL & PASSWORD - REGISTER
     document.getElementById('register-form').addEventListener('submit', (e) => {
