@@ -154,10 +154,20 @@
       }
     }
 
-    // 🚪 දැනටමත් ලොග් වී ඇත්නම් Dashboard වෙත යැවීම
+    // 🔒 USER SECURITY CHECK
     auth.onAuthStateChanged((user) => {
-      if (user && user.emailVerified) {
-        window.location.href = "dashboard.html";
+      if (user) {
+        // 🔥 Google වලින් එන අයට හෝ Email Verify කරපු අයට කෙලින්ම යන්න දෙනවා
+        const isGoogleUser = user.providerData.some(p => p.providerId === 'google.com');
+        
+        if (user.emailVerified || isGoogleUser) {
+          window.location.href = "dashboard.html";
+        } else {
+          // Email/Password වලින් ඇවිත් Verify කරලා නැත්නම් විතරක් බ්ලොක් කරනවා
+          errorEl.style.display = 'block';
+          errorEl.innerText = "⚠️ Your email is not verified yet! Please check your email inbox.";
+          auth.signOut();
+        }
       }
     });
 
@@ -174,7 +184,7 @@
       }
     });
 
-    // 🌐 3. GOOGLE REDIRECT LOGIN (නවතම ක්‍රමය - Conflicting Popup එන්නේ නැත)
+    // 🌐 3. GOOGLE REDIRECT LOGIN
     document.getElementById('google-login-btn').addEventListener('click', () => {
       resetAlerts();
       const provider = new firebase.auth.GoogleAuthProvider();
@@ -197,12 +207,14 @@
 
       auth.createUserWithEmailAndPassword(email, password)
         .then((userCredential) => {
-          auth.currentUser.sendEmailVerification()
-            .then(() => {
-              successEl.style.display = 'block';
-              successEl.innerText = "🔥 Verification link sent! Please check your email inbox to activate your account.";
-              document.getElementById('register-form').reset();
-            });
+          // Verification Email එකක් යවනවා
+          return userCredential.user.sendEmailVerification();
+        })
+        .then(() => {
+          successEl.style.display = 'block';
+          successEl.innerText = "🔥 Verification link sent! Please check your email inbox to activate your account.";
+          document.getElementById('register-form').reset();
+          auth.signOut(); // Verify වෙනකන් Logged out පිට තියනවා
         })
         .catch((error) => {
           errorEl.style.display = 'block';
