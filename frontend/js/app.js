@@ -14,7 +14,12 @@ const mockData = [
   { _id: "dia_w", title: "Weekly Membership", category: "diamonds", price: 790, diamondCount: "Weekly Standard", description: "Standard Weekly Membership. Super fast activation via Player ID.", image: "https://images.unsplash.com/photo-1561715276-a2d087060f1d?q=80&w=400" },
   { _id: "dia_vw", title: "VIP Weekly Membership", category: "diamonds", price: 1150, diamondCount: "VIP Weekly", description: "Premium VIP Weekly benefits. Level up your game instantly.", image: "https://images.unsplash.com/photo-1561715276-a2d087060f1d?q=80&w=400" },
   { _id: "dia_m", title: "Monthly Membership", category: "diamonds", price: 2950, diamondCount: "Monthly Standard", description: "Massive diamond bundle across 30 days. Best value for money.", image: "https://images.unsplash.com/photo-1561715276-a2d087060f1d?q=80&w=400" },
-  { _id: "dia_vm", title: "VIP Monthly Membership", category: "diamonds", price: 4200, diamondCount: "VIP Monthly", description: "The ultimate Free Fire subscription. Maximum rewards guaranteed.", image: "https://images.unsplash.com/photo-1561715276-a2d087060f1d?q=80&w=400" }
+  { _id: "dia_vm", title: "VIP Monthly Membership", category: "diamonds", price: 4200, diamondCount: "VIP Monthly", description: "The ultimate Free Fire subscription. Maximum rewards guaranteed.", image: "https://images.unsplash.com/photo-1561715276-a2d087060f1d?q=80&w=400" },
+  // 🔥 [මෙන්න අලුත් Gems Packs ටික]: මේවට "isGems: true" කියලා දාන්න
+{ _id: "gem_100", title: "100+10 Diamonds Pack", category: "diamonds", price: 240, diamondCount: "110 Gems", isGems: true, description: "Instant Top-Up via Player ID.", image: "https://images.unsplash.com/photo-1561715276-a2d087060f1d?q=80&w=400" },
+{ _id: "gem_210", title: "210+21 Diamonds Pack", category: "diamonds", price: 480, diamondCount: "231 Gems", isGems: true, description: "Instant Top-Up via Player ID.", image: "https://images.unsplash.com/photo-1561715276-a2d087060f1d?q=80&w=400" },
+{ _id: "gem_530", title: "530+53 Diamonds Pack", category: "diamonds", price: 1150, diamondCount: "583 Gems", isGems: true, description: "Instant Top-Up via Player ID.", image: "https://images.unsplash.com/photo-1561715276-a2d087060f1d?q=80&w=400" },
+{ _id: "gem_1080", title: "1080+108 Diamonds Pack", category: "diamonds", price: 2300, diamondCount: "1188 Gems", isGems: true, description: "Instant Top-Up via Player ID.", image: "https://images.unsplash.com/photo-1561715276-a2d087060f1d?q=80&w=400" }
 ];
 
 let allFetchedItems = []; 
