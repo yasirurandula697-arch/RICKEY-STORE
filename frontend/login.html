@@ -3,110 +3,287 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rickey Store | Login & Register</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Orbitron:wght@600;800&display=swap" rel="stylesheet">
+  <title>RICKEY STORE | Premium Gaming & Diamond Hub</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <!-- 🚨 Icons සහ මෙනු ලස්සනට පේන්න FontAwesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-    body { background: #0f0f1e; color: #fff; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+    /* 🎨 නවීන User Profile සහ Wallet UI සදහා අමතර CSS Styles */
+    .user-wallet-profile {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 6px 14px;
+      border-radius: 30px;
+      border: 1px solid rgba(0, 123, 255, 0.2);
+    }
+    .user-email-display {
+      font-size: 12px;
+      color: #a2a2a2;
+      font-weight: 500;
+    }
+    .wallet-badge {
+      background: linear-gradient(45deg, #007bff, #00c6ff);
+      color: #fff;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      box-shadow: 0 0 10px rgba(0, 123, 255, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .logout-top-btn {
+      background: none;
+      border: none;
+      color: #ff416c;
+      cursor: pointer;
+      font-size: 14px;
+      transition: 0.3s;
+    }
+    .logout-top-btn:hover {
+      transform: scale(1.1);
+    }
     
-    .auth-container { background: #1a1a2e; width: 100%; max-width: 420px; padding: 35px 30px; border-radius: 16px; border: 1px solid #007bff; box-shadow: 0 0 25px rgba(0, 123, 255, 0.25); position: relative; overflow: hidden; }
-    .auth-container::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: linear-gradient(90deg, #007bff, #00c6ff); }
-    
-    h2 { text-align: center; font-family: 'Orbitron', sans-serif; color: #007bff; margin-bottom: 25px; letter-spacing: 1.5px; font-weight: 800; font-size: 26px; text-shadow: 0 0 10px rgba(0, 123, 255, 0.5); }
-    .form-group { margin-bottom: 18px; position: relative; }
-    label { font-size: 11px; color: #a2a2a2; display: block; margin-bottom: 6px; font-weight: 600; letter-spacing: 0.5px; }
-    
-    .input-wrapper { position: relative; display: flex; align-items: center; }
-    .input-wrapper i { position: absolute; left: 12px; color: #555; font-size: 14px; transition: 0.3s; }
-    
-    input { width: 100%; padding: 12px 12px 12px 40px; background: #0f0f1e; border: 1px solid #2a2a4a; border-radius: 8px; color: #fff; font-weight: 500; font-size: 14px; transition: 0.3s; }
-    input:focus { border-color: #007bff; outline: none; box-shadow: 0 0 8px rgba(0, 123, 255, 0.2); }
-    input:focus + i { color: #007bff; }
-    
-    .auth-btn { width: 100%; padding: 12px; background: linear-gradient(45deg, #007bff, #00c6ff); border: none; border-radius: 8px; color: #fff; font-weight: 600; font-size: 14px; cursor: pointer; margin-top: 10px; transition: 0.3s; letter-spacing: 0.5px; }
-    .auth-btn:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 5px 15px rgba(0, 123, 255, 0.4); }
-    
-    .divider { margin: 20px 0; text-align: center; color: #555; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 10px; }
-    .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: #2a2a4a; }
-    
-    .google-btn { width: 100%; padding: 12px; background: #fff; color: #000; border: none; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s; }
-    .google-btn:hover { background: #f1f1f1; transform: translateY(-1px); box-shadow: 0 5px 15px rgba(255, 255, 255, 0.1); }
-    .google-btn img { width: 18px; }
-    
-    .switch-text { text-align: center; font-size: 13px; color: #a2a2a2; margin-top: 20px; }
-    .switch-text a { color: #007bff; text-decoration: none; font-weight: 600; transition: 0.3s; }
-    .switch-text a:hover { color: #00c6ff; text-decoration: underline; }
-    
-    .error-msg { background: rgba(255, 65, 108, 0.1); border: 1px solid #ff416c; color: #ff416c; padding: 10px; border-radius: 6px; font-size: 12px; margin-top: 15px; display: none; text-align: center; font-weight: 500; }
-    .success-msg { background: rgba(40, 167, 69, 0.1); border: 1px solid #28a745; color: #28a745; padding: 10px; border-radius: 6px; font-size: 12px; margin-top: 15px; display: none; text-align: center; font-weight: 500; }
+    /* 💰 Deposit Dropdown UI */
+    .deposit-container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 20px auto 0 auto;
+      padding: 0 10px;
+    }
+    .deposit-card {
+      background: #111122;
+      border: 1px solid #2a2a4a;
+      border-radius: 12px;
+      padding: 20px;
+      color: #fff;
+    }
+    .deposit-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+    }
+    .deposit-header h3 {
+      font-family: 'Orbitron', sans-serif;
+      color: #007bff;
+      font-size: 16px;
+    }
+    .deposit-body {
+      display: none;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px dashed #2a2a4a;
+    }
+    .deposit-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, min-make: 280px);
+      gap: 20px;
+    }
+    .instruction-box {
+      background: rgba(255,255,255,0.02);
+      padding: 15px;
+      border-radius: 8px;
+      border-left: 4px solid #00c6ff;
+    }
+    .deposit-form input, .deposit-form select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 12px;
+      background: #0f0f1e;
+      border: 1px solid #2a2a4a;
+      border-radius: 6px;
+      color: #fff;
+    }
+    .deposit-submit {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(45deg, #28a745, #218838);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
 
-  <div class="auth-container">
-    <h2 id="auth-title">LOGIN</h2>
+  <!-- Premium Navigation Bar with User Wallet Info -->
+  <header>
+    <div class="header-left">
+      <div class="menu-toggle" onclick="toggleSidebar()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div class="logo">RICKEY<span>STORE</span></div>
+    </div>
     
-    <form id="login-form">
-      <div class="form-group">
-        <label>EMAIL ADDRESS</label>
-        <div class="input-wrapper">
-          <input type="email" id="login-email" required placeholder="example@gmail.com">
-          <i class="fa-solid fa-envelope"></i>
+    <div class="header-right">
+      <!-- 🔄 මෙතනට තමයි ලොග් වෙන යූසර්ගේ විස්තර ඔටෝ ලෝඩ් වෙන්නේ මචං -->
+      <div class="user-wallet-profile" id="user-profile-area" style="display: none;">
+        <span class="user-email-display" id="user-email">loading...</span>
+        <div class="wallet-badge">
+          <i class="fa-solid fa-wallet"></i> Rs. <span id="user-balance">0</span>
         </div>
+        <button class="logout-top-btn" onclick="logoutUser()" title="Logout">
+          <i class="fa-solid fa-right-from-bracket"></i>
+        </button>
       </div>
-      <div class="form-group">
-        <label>PASSWORD</label>
-        <div class="input-wrapper">
-          <input type="password" id="login-password" required placeholder="••••••••">
-          <i class="fa-solid fa-lock"></i>
-        </div>
-      </div>
-      <button type="submit" class="auth-btn">LET'S PLAY 🎮</button>
-      <p class="switch-text">Don't have an account? <a href="#" onclick="toggleAuth(event, 'register')">Register Now</a></p>
-    </form>
+      <span class="status-badge" id="active-badge">🟢 Active Now</span>
+    </div>
+  </header>
 
-    <form id="register-form" style="display: none;">
-      <div class="form-group">
-        <label>FULL NAME</label>
-        <div class="input-wrapper">
-          <input type="text" id="reg-name" required placeholder="John Doe">
-          <i class="fa-solid fa-user"></i>
-        </div>
-      </div>
-      <div class="form-group">
-        <label>EMAIL ADDRESS</label>
-        <div class="input-wrapper">
-          <input type="email" id="reg-email" required placeholder="example@gmail.com">
-          <i class="fa-solid fa-envelope"></i>
-        </div>
-      </div>
-      <div class="form-group">
-        <label>PASSWORD</label>
-        <div class="input-wrapper">
-          <input type="password" id="reg-password" required placeholder="Minimum 6 characters">
-          <i class="fa-solid fa-lock"></i>
-        </div>
-      </div>
-      <button type="submit" class="auth-btn">CREATE ACCOUNT 🔥</button>
-      <p class="switch-text">Already have an account? <a href="#" onclick="toggleAuth(event, 'login')">Login Here</a></p>
-    </form>
-    
-    <div class="divider">OR</div>
-    <button type="button" id="google-login-btn" class="google-btn">
-      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
-      Continue with Google
-    </button>
-    
-    <div id="global-error" class="error-msg"></div>
-    <div id="global-success" class="success-msg"></div>
+  <!-- Side Sliding Navigation Drawer -->
+  <div id="sidebar" class="sidebar">
+    <div class="sidebar-header">
+      <h3>Select Store Category</h3>
+      <button class="close-btn" onclick="toggleSidebar()">&times;</button>
+    </div>
+    <ul class="sidebar-links">
+      <li><a href="#" class="nav-link active" onclick="selectCategory('all', this)">All Stores Layout</a></li>
+      <li><a href="#" class="nav-link" onclick="selectCategory('freefire', this)">Free Fire Accounts</a></li>
+      <li><a href="#" class="nav-link" onclick="selectCategory('youtube', this)">YouTube Channels</a></li>
+      <li><a href="#" class="nav-link" onclick="selectCategory('tiktok', this)">TikTok Profiles</a></li>
+      <li><a href="#" class="nav-link diamond-link" onclick="selectCategory('diamonds', this)">💎 Diamond Store</a></li>
+      <li><a href="#" onclick="openAboutModal(event)">ℹ️ About Us</a></li>
+      <li><a href="#" onclick="logoutUser()" style="color: #ff416c;"><i class="fa-solid fa-right-from-bracket"></i> Logout Account</a></li>
+    </ul>
   </div>
 
+  <div id="sidebar-overlay" class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+  <!-- Hero Promotional Banner Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Elevate Your Gaming & Digital Presence</h1>
+      <p>SRILANKA Fastest Account Store & Diamond Top-Up Partner. 100% Secured and Instant Delivery.</p>
+    </div>
+  </section>
+
+  <!-- 💰 EZ-CASH WALLET DEPOSIT BOX (කලින් ඩෑෂ්බෝඩ් එකේ තිබුණු කොටස මෙතනට ලස්සනට දැම්මා) -->
+  <div class="deposit-container">
+    <div class="deposit-card">
+      <div class="deposit-header" onclick="toggleDepositDropdown()">
+        <h3><i class="fa-solid fa-money-bill-transfer" style="margin-right: 8px;"></i> DEPOSIT FUNDS / ADD MONEY TO WALLET</h3>
+        <i class="fa-solid fa-chevron-down" id="dropdown-icon" style="transition: 0.3s;"></i>
+      </div>
+      
+      <div class="deposit-body" id="deposit-dropdown-body">
+        <div class="deposit-grid">
+          <div class="instruction-box">
+            <h4 style="color: #00c6ff; margin-bottom: 10px;">How to Deposit via eZ-Cash 🇱🇰</h4>
+            <p style="font-size: 13px; line-height: 1.6; color: #ccc;">
+              1. Send your deposit amount to this eZ-Cash number:<br>
+              <strong style="color: #fff; font-size: 16px; font-family: 'Orbitron';">📱 076 130 5100</strong><br>
+              2. Keep the Reference ID/Transaction ID from the SMS.<br>
+              3. Fill out the form on the right and submit your proof.<br>
+              4. Admin will verify and add credits to your wallet within 1-15 minutes!
+            </p>
+          </div>
+          
+          <div class="deposit-form">
+            <form id="deposit-form-submit">
+              <input type="number" id="deposit-amount" placeholder="Enter Deposit Amount (LKR)" required min="100">
+              <input type="text" id="deposit-ref" placeholder="eZ-Cash Transaction ID / Ref ID" required>
+              <button type="submit" class="deposit-submit">SUBMIT DEPOSIT PROOF 🚀</button>
+            </form>
+            <p id="deposit-status-msg" style="font-size: 12px; margin-top: 8px; text-align: center; display: none;"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dynamic Product Showcase Container -->
+  <main class="store-container">
+    <!-- 🔥 Price Filter Row -->
+    <div class="filter-section-row" style="display: flex; justify-content: flex-end; width: 100%; margin-bottom: 25px; padding: 0 10px;">
+      <div class="price-filter-wrapper" style="background: #111122; padding: 15px 20px; border-radius: 12px; border: 1px solid #2a2a4a; width: 100%; max-width: 320px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <span style="font-weight: 600; color: #fff; font-size: 13px; display: flex; align-items: center; gap: 6px;">💰 Max Price:</span>
+          <span id="price-value" style="font-weight: 700; color: #007bff; font-family: 'Orbitron', sans-serif; font-size: 14px;">Any Price</span>
+        </div>
+        <input type="range" id="price-slider" min="1000" max="10000" step="100" value="10000" oninput="updatePriceFilter(this.value)" style="width: 100%; cursor: pointer; accent-color: #007bff; display: block;">
+        <div style="display: flex; justify-content: space-between; font-size: 10px; color: #9c9c9c; margin-top: 4px; font-weight: 500;">
+          <span>Rs. 1,000</span>
+          <span>Max: Unlimited</span>
+        </div>
+      </div>
+    </div>
+
+    <h2 id="store-title" class="section-title">All Available Products</h2>
+    <div id="products-grid" class="products-grid">
+      <div class="loading">Loading premium listings...</div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 RICKEY STORE. Powering Sri Lankan Gamers & Creators.</p>
+  </footer>
+
+  <!-- Product View Modal -->
+  <div id="productModal" class="modal">
+    <div class="modal-content" style="background: #16162a; color: #fff; border: 1px solid #2a2a4a;">
+      <span class="modal-close" style="color: #fff;" onclick="closeModal()">&times;</span>
+      <div class="modal-body">
+        <div class="modal-img-container">
+          <img id="modal-image" src="" alt="Product Image">
+        </div>
+        <div class="modal-info">
+          <span id="modal-badge" class="modal-badge">Category</span>
+          <div id="modal-price" class="modal-price" style="color: #007bff;">LKR 0.00</div>
+          <div id="modal-specs" class="modal-specs"></div>
+          <div class="desc-section">
+            <h4>Account Description:</h4>
+            <p id="modal-description" style="color: #ccc;">Product description will display here...</p>
+          </div>
+          <a id="modal-buy-btn" href="#" target="_blank" class="modal-buy-btn">💬 Order Via WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- About Us Modal -->
+  <div id="aboutModal" class="modal">
+    <div class="modal-content" style="background: #16162a; color: #fff; border: 1px solid #2a2a4a;">
+      <span class="modal-close" style="color: #fff;" onclick="closeAboutModal()">&times;</span>
+      <div style="text-align: center; margin-bottom: 20px;">
+        <h2 style="font-family: 'Orbitron', sans-serif; font-weight: 900; color: #007bff;">ABOUT RICKEY STORE</h2>
+        <p style="color: #6c757d; font-size: 14px; margin-top: 5px;">Sri Lanka's Premium Gaming & Digital Services Partner</p>
+      </div>
+      <div style="background: #0f0f1e; padding: 20px; border-radius: 14px; border-left: 4px solid #007bff; margin-bottom: 20px; font-size: 14px; line-height: 1.6; color: #ccc; text-align: left;">
+        <p>සාදරයෙන් පිළිගන්නවා! <strong>RICKEY STORE</strong> කියන්නේ ඔයාලට අවශ්‍ය කරන සියලුම Premium Free Fire Accounts, High-Quality YouTube & TikTok Channels වගේම 100% විශ්වාසවන්ත, ක්ෂණික Diamond Top-Up සහ Memberships එකම තැනකින් ලබාගන්න පුළුවන් ලංකාවේ විශ්වාසවන්තම ඩිජිටල් ස්ටෝර් එකක්.</p>
+        <br>
+        <p>අපගේ ප්‍රධානම අරමුණ වෙන්නේ ඉතාමත් සාධාරණ මිල ගණන් යටතේ, වංචාවකින් තොරව (100% Trusted) සහ ඉතාමත් වේගවත් පාරිභෝගික සේවාවක් (Fast Service) ඔයාලට ලබා දෙන එකයි.</p>
+      </div>
+      <div class="modal-specs" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; text-align: left; color: #fff;">
+        <div><strong>🔥 Services:</strong> Accounts, Top-Up</div>
+        <div><strong>🇱🇰 Location:</strong> Sri Lanka</div>
+        <div><strong>⚡ Processing Time:</strong> 1 Mins</div>
+        <div><strong>✅ Reliability:</strong> 100% Safe & Secure</div>
+      </div>
+      <a href="https://wa.me/94761305100" target="_blank" class="modal-buy-btn" style="background: #007bff; text-decoration: none; display: block; color: #fff; padding: 12px; border-radius: 10px; font-weight: 700; margin-top: 15px; text-align: center;">
+        💬 Contact Admin
+      </a>
+    </div>
+  </div>
+  
+  <div id="modal-overlay" class="modal-overlay" onclick="closeModal()"></div>
+
+  <!-- 🗄️ FIREBASE SDK & WEB SECURITY LOGIC -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
   
   <script>
+    // 🔥 Firebase Configuration
     const firebaseConfig = {
       apiKey: "AIzaSyDQzjYIoFl1uU0c24IkMFYKt9xsIjrlt3U",
       authDomain: "rickey-3c59e.firebaseapp.com",
@@ -119,112 +296,60 @@
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
 
-    const errorEl = document.getElementById('global-error');
-    const successEl = document.getElementById('global-success');
-
-    function resetAlerts() {
-      errorEl.style.display = 'none';
-      successEl.style.display = 'none';
-    }
-
-    function toggleAuth(e, mode) {
-      e.preventDefault();
-      const loginForm = document.getElementById('login-form');
-      const registerForm = document.getElementById('register-form');
-      const title = document.getElementById('auth-title');
-      resetAlerts();
-
-      if(mode === 'register') {
-        loginForm.style.display = 'none';
-        registerForm.style.display = 'block';
-        title.innerText = 'REGISTER';
-      } else {
-        loginForm.style.display = 'block';
-        registerForm.style.display = 'none';
-        title.innerText = 'LOGIN';
-      }
-    }
-
-    // 🔒 USER SECURITY CHECK (Redirect වෙලා එන ලොගින් එකත් මෙතනින්ම අල්ලගන්නවා)
+    // 🔒 සෙකියුරිටි චෙක් එක - ලොග් වෙලා නැත්නම් බලහත්කාරයෙන් INDEX.HTML (LOGIN) එකට පන්නනවා
     auth.onAuthStateChanged((user) => {
-      if (user) {
-        // ලොග් වෙලා ඉන්නවා නම් කෙලින්ම dashboard එකට යවනවා
-        window.location.href = "dashboard.html";
+      if (!user) {
+        // යූසර් ලොග් අවුට් නම් හෝ ලොග් වෙලා නැත්නම් කෙලින්ම ලොගින් පේජ් එකට යවනවා
+        window.location.href = "index.html";
+      } else {
+        // ලොග් වෙලා ඉන්නවා නම් විස්තර උඩ බාර් එකට දානවා
+        document.getElementById('user-profile-area').style.display = 'flex';
+        document.getElementById('user-email').innerText = user.email;
+        
+        // 💎 Wallet Balance එක Database එකෙන් ගන්න ඕන නිසා දැනට Default Rs. 0 පෙන්වයි
+        document.getElementById('user-balance').innerText = "0"; 
       }
     });
 
-    // 🌐 3. GOOGLE REDIRECT LOGIN (කිසිම Popup එකක් නැති නිසා Error එන්නේ නැත)
-    document.getElementById('google-login-btn').addEventListener('click', () => {
-      resetAlerts();
-      const provider = new firebase.auth.GoogleAuthProvider();
-      
-      // Popup වෙනුවට Redirect ක්‍රමය පාවිච්චි කරමු
-      auth.signInWithRedirect(provider)
-        .catch((error) => {
-          console.error(error);
-          errorEl.style.display = 'block';
-          errorEl.innerText = "❌ " + error.message;
-        });
-    });
+    // 🚪 LOGOUT FUNCTION
+    function logoutUser() {
+      auth.signOut().then(() => {
+        window.location.href = "index.html";
+      });
+    }
 
-    
-
-    // 📩 1. EMAIL & PASSWORD - REGISTER
-    document.getElementById('register-form').addEventListener('submit', (e) => {
-      e.preventDefault();
-      resetAlerts();
-      
-      const email = document.getElementById('reg-email').value.trim();
-      const password = document.getElementById('reg-password').value;
-
-      if (password.length < 6) {
-        errorEl.style.display = 'block';
-        errorEl.innerText = "❌ Password should be at least 6 characters!";
-        return;
+    // 💰 DEPOSIT DROPDOWN TOGGLE FUNCTION
+    function toggleDepositDropdown() {
+      const body = document.getElementById('deposit-dropdown-body');
+      const icon = document.getElementById('dropdown-icon');
+      if (body.style.display === "block") {
+        body.style.display = "none";
+        icon.style.transform = "rotate(0deg)";
+      } else {
+        body.style.display = "block";
+        icon.style.transform = "rotate(180deg)";
       }
+    }
 
-      auth.createUserWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-          return userCredential.user.sendEmailVerification();
-        })
-        .then(() => {
-          successEl.style.display = 'block';
-          successEl.innerText = "🔥 Verification link sent! Please check your email inbox to activate your account.";
-          document.getElementById('register-form').reset();
-          auth.signOut(); 
-        })
-        .catch((error) => {
-          errorEl.style.display = 'block';
-          errorEl.innerText = "❌ " + error.message;
-        });
-    });
-
-    // 🔑 2. EMAIL & PASSWORD - LOGIN
-    document.getElementById('login-form').addEventListener('submit', (e) => {
+    // 📩 DEPOSIT PROOF FORM SUBMISSION TO CONSOLE (DATABASE වැඩ සඳහා)
+    document.getElementById('deposit-form-submit').addEventListener('submit', (e) => {
       e.preventDefault();
-      resetAlerts();
-      
-      const email = document.getElementById('login-email').value.trim();
-      const password = document.getElementById('login-password').value;
+      const amount = document.getElementById('deposit-amount').value;
+      const refId = document.getElementById('deposit-ref').value;
+      const statusMsg = document.getElementById('deposit-status-msg');
 
-      auth.signInWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-          const user = userCredential.user;
-          
-          // සාමාන්‍ය ඊමේල් ලොගින් එකේදී විතරක් මෙතනදීම ඊමේල් එක චෙක් කරනවා
-          if (!user.emailVerified) {
-            errorEl.style.display = 'block';
-            errorEl.innerText = "⚠️ Your email is not verified yet! Please check your email inbox.";
-            auth.signOut();
-          } else {
-            window.location.href = "dashboard.html"; 
-          }
-        })
-        .catch((error) => {
-          errorEl.style.display = 'block';
-          errorEl.innerText = "❌ " + error.message;
-        });
+      statusMsg.style.display = "block";
+      statusMsg.style.color = "#28a745";
+      statusMsg.innerText = "⏳ Submitting proof to admin...";
+
+      // දැනට සාර්ථකයි කියා පෙන්වයි. 
+      setTimeout(() => {
+        statusMsg.innerText = "✅ Proof submitted! Please wait 1-15 mins for Admin Verification.";
+        document.getElementById('deposit-form-submit').reset();
+      }, 1500);
     });
   </script>
+
+  <script src="js/app.js"></script>
 </body>
 </html>
