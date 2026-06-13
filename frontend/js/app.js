@@ -56,10 +56,8 @@ async function fetchProducts(category = 'all') {
     if (!response.ok) throw new Error("Fallback execution trigger");
     let data = await response.json();
     
-    // 💡 [සුපිරිම ආරක්ෂිත ක්‍රමය]: සර්වර් එකෙන් ඩේටා ආවත්, නැතත් MockData එකයි සර්වර් ඩේටායි දෙකම එකතු කරනවා
-    // එතකොට Database එකේ නැති වුණත් MockData එකේ තියෙන Gems ටික සයිට් එකට අනිවාර්යයෙන්ම එනවා!
     if (data && data.length > 0) {
-      // සර්වර් එකෙන් ආපු ඩේටා වල gem_ කියලා ID එකක් තිබ්බොත් ඒකට isGems: true ඔටෝ දානවා
+      // 1. සර්වර් එකෙන් එන ඩේටා වල gem_ කියලා තිබ්බොත් ඒවට isGems: true දානවා
       data = data.map(item => {
         if (item._id && item._id.startsWith('gem_')) {
           item.isGems = true;
@@ -67,10 +65,13 @@ async function fetchProducts(category = 'all') {
         return item;
       });
       
-      // සර්වර් එකෙන් ආපු ඩේටා ලිස්ට් එකට අපේ MockData එකේ තියෙන Gems ටිකත් බලෙන්ම එකතු කරනවා (ඩුප්ලිකේට් නොවී)
-      mockData.forEach(mockItem => {
-        if (!data.some(serverItem => serverItem._id === mockItem._id)) {
-          data.push(mockItem);
+      // 💡 [ප්‍රධානම ෆික්ස් එක]: සර්වර් ලිස්ට් එකට එකතු කරන්නේ MockData එකේ තියෙන GEMS PACKS විතරයි!
+      // මේ නිසා කිසිම මෙම්බර්ෂිප් එකක් ආයෙත් ඩබල් වෙලා වැටෙන්නේ නැහැ මචං.
+      const onlyGemsFromMock = mockData.filter(mockItem => mockItem.isGems === true);
+      
+      onlyGemsFromMock.forEach(gemItem => {
+        if (!data.some(serverItem => serverItem._id === gemItem._id)) {
+          data.push(gemItem);
         }
       });
       allFetchedItems = data;
@@ -116,16 +117,16 @@ function renderGrid(items) {
     return;
   }
   
-  // Diamond Store එකේදී විතරක් Memberships සහ Gems වෙන වෙනම බෙදනවා
   if (currentSelectedCategory === 'diamonds') {
-    // 💡 [ප්‍රධානම විසඳුම]: සර්වර් එකෙන් ආවත් ID එක 'gem_' නම් ඒක Membership එකක් නෙවෙයි Gems කියලා වෙන් කරනවා!
+    // 💡 [පිරිසිදු බෙදාගැනීම]: ID එක gem_ වලින් පටන් ගන්නා හෝ isGems:true තියෙන ඔක්කොම Gems වලට වෙන් කරනවා.
+    // ඉතිරි ඔක්කොම (සර්වර් එකෙන් ආපු සහ මොක් එකේ තියෙන) පිරිසිදු මෙම්බර්ෂිප් විදිහට ගන්නවා.
     const memberships = displayItems.filter(item => !item.isGems && !(item._id && item._id.startsWith('gem_')));
     const gemsPacks = displayItems.filter(item => item.isGems || (item._id && item._id.startsWith('gem_')));
 
-    // 1. Memberships කාඩ් ටික විතරක් ඉස්සෙල්ලම දානවා
+    // 1. Memberships කාඩ් ටික විතරක් මුලින්ම පෙන්වනවා
     memberships.forEach(item => createCardElement(item, grid));
 
-    // 2. Gems Packs තියෙනවා නම් මැදින් ලස්සන හරස් ඉරක් (Divider) සහ Heading එකක් දානවා
+    // 2. මැදින් ලස්සන Divider එක සහ Heading එක දානවා
     if (gemsPacks.length > 0) {
       const divider = document.createElement("div");
       divider.style.gridColumn = "1 / -1"; 
@@ -135,16 +136,14 @@ function renderGrid(items) {
       `;
       grid.appendChild(divider);
 
-      // 3. හරස් ඉරට යටින් Gems කාඩ් ටික විතරක් දානවා
+      // 3. හරස් ඉරට යටින් Gems කාඩ් ටික විතරක් ලස්සනට පෙන්වනවා
       gemsPacks.forEach(item => createCardElement(item, grid));
     }
   } else {
-    // අනෙක් කැටගරි සාමාන්‍ය විදියට ලෝඩ් වෙනවා
     displayItems.forEach(item => createCardElement(item, grid));
   }
 }
 
-// 💡 කාඩ් එක හදන ලස්සන පිරිසිදු ෆන්ක්ෂන් එක (ටයිටල් එක කාඩ් එකෙන් අයින් කරලා තියෙන්නේ මචං)
 function createCardElement(item, grid) {
   const isDiamond = item.category === 'diamonds';
   const isSold = item.status === 'sold';
@@ -164,7 +163,9 @@ function createCardElement(item, grid) {
   } else if (item.category === 'tiktok') {
     metaHTML = `<span>Followers: <strong>${item.followers || '0'}</strong></span>`;
   } else if (item.category === 'diamonds') {
-    metaHTML = item.isGems 
+    // 💡 කාඩ් එක ඇතුළේ ලේබල් එකත් ID එකෙන් චෙක් කරලා නිවැරදිව දානවා
+    const checkGems = item.isGems || (item._id && item._id.startsWith('gem_'));
+    metaHTML = checkGems 
       ? `<span>Gems Pack: <strong>💎 ${item.diamondCount || 'Instant'}</strong></span>`
       : `<span>Type: <strong>👑 ${item.diamondCount || 'Membership'}</strong></span>`;
   }
@@ -210,7 +211,6 @@ function selectCategory(category, element) {
   toggleSidebar();
 }
 
-// 💡 [ආරක්ෂිත වැටවල් සහ පින්තූර ලින්ක් එක හැදූ පූර්ණ Modal Function එක]:
 function openProductModal(itemId) {
   const item = allFetchedItems.find(i => i._id === itemId);
   if (!item) return;
@@ -245,7 +245,8 @@ function openProductModal(itemId) {
       specsContainer.innerHTML = `<div><strong>Followers:</strong> ${item.followers || 'N/A'}</div>`;
       whatsappDetails = `🎵 Followers: ${item.followers || 'N/A'}`;
     } else if (item.category === 'diamonds') {
-      if (item.isGems) {
+      const isItemGem = item.isGems || (item._id && item._id.startsWith('gem_'));
+      if (isItemGem) {
         specsContainer.innerHTML = `<div><strong>Top-Up Type:</strong> Direct Gems (Player ID)</div>`;
         whatsappDetails = `💎 Pack: ${item.diamondCount || 'Gems Pack'}\n🆔 Top-Up Method: Player ID`;
       } else {
