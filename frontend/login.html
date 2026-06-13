@@ -68,7 +68,8 @@
     </form>
 
     <form id="register-form" style="display: none;">
-      <div class="form-group"> Full Name</label>
+      <div class="form-group">
+        <label>FULL NAME</label>
         <div class="input-wrapper">
           <input type="text" id="reg-name" required placeholder="John Doe">
           <i class="fa-solid fa-user"></i>
@@ -104,8 +105,8 @@
 
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-<script>
-  // 🌍 Real Updated Firebase Config
+  
+  <script>
     const firebaseConfig = {
       apiKey: "AIzaSyDQzjYIoFl1uU0c24IkMFYKt9xsIjrlt3U",
       authDomain: "rickey-3c59e.firebaseapp.com",
@@ -115,7 +116,6 @@
       appId: "1:375211284684:web:cb2faf2d708d53fe6e4a69"
     };
     
-    // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
 
@@ -127,7 +127,6 @@
       successEl.style.display = 'none';
     }
 
-    // Toggle forms
     function toggleAuth(e, mode) {
       e.preventDefault();
       const loginForm = document.getElementById('login-form');
@@ -146,21 +145,12 @@
       }
     }
 
-    // 🔒 USER SECURITY CHECK (ලොගින් ලූප් එක සදහටම විසඳන ලදි)
+    // 🔒 USER SECURITY CHECK (පසුබිම් signOut ලූප් එක සම්පූර්ණයෙන්ම ඉවත් කර සරල කරන ලදි)
     auth.onAuthStateChanged((user) => {
       if (user) {
-        // යූසර් ලොග් වුණේ Google වලින්ද කියලා 100% ක් ෂුවර් කරගන්න ක්‍රමය
-        const isGoogleUser = user.providerData && user.providerData.some(p => p.providerId === 'google.com');
-        
-        // Google යූසර් කෙනෙක් නම් හෝ Email Verify කරපු කෙනෙක් නම් කෙලින්ම ඩෑෂ්බෝඩ් එකට යවනවා
-        if (isGoogleUser || user.emailVerified) {
-          window.location.href = "dashboard.html";
-        } else {
-          // සාමාන්‍ය Email/Password වලින් ඇවිත් තවම Verify කරලා නැති අයව විතරක් බ්ලොක් කරනවා
-          errorEl.style.display = 'block';
-          errorEl.innerText = "⚠️ Your email is not verified yet! Please check your email inbox.";
-          auth.signOut();
-        }
+        // ලොග් වෙලා ඉන්නවා නම් කෙලින්ම dashboard එකට යවනවා.
+        // සෙකියුරිටි සහ ඊමේල් වෙරිෆිකේෂන් චෙක් කිරීම් dashboard.html එකෙන් සහ Form submission එකෙන් බලාගන්නා නිසා මෙතන signOut කරන්නේ නැත.
+        window.location.href = "dashboard.html";
       }
     });
 
@@ -224,6 +214,7 @@
         .then((userCredential) => {
           const user = userCredential.user;
           
+          // සාමාන්‍ය ඊමේල් ලොගින් එකේදී විතරක් මෙතනදීම ඊමේල් එක චෙක් කරනවා
           if (!user.emailVerified) {
             errorEl.style.display = 'block';
             errorEl.innerText = "⚠️ Your email is not verified yet! Please check your email inbox.";
