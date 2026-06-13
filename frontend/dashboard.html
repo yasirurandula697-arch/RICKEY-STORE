@@ -11,13 +11,11 @@
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
     
-    /* ප්‍රධාන පසුබිම සම්පූර්ණයෙන්ම සුදු සහ ලා අළු පාට කර ඇත */
     html, body { background-color: #f4f6f9 !important; background: #f4f6f9 !important; color: #333; min-height: 100vh; }
     body { padding: 20px; }
     
     .dashboard-container { max-width: 900px; margin: 0 auto; }
     
-    /* Header Styles (Clean White with Soft Shadow) */
     header { display: flex; justify-content: space-between; align-items: center; background: #ffffff; padding: 15px 25px; border-radius: 12px; border: 1px solid #e1e8ed; margin-bottom: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
     .logo { font-family: 'Orbitron', sans-serif; color: #007bff; font-weight: 800; font-size: 20px; text-shadow: 0 0 10px rgba(0, 123, 255, 0.2); }
     .user-info { display: flex; align-items: center; gap: 15px; }
@@ -25,34 +23,28 @@
     .logout-btn { background: rgba(255, 65, 108, 0.05); border: 1px solid #ff416c; color: #ff416c; padding: 8px 15px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; transition: 0.3s; }
     .logout-btn:hover { background: #ff416c; color: #fff; box-shadow: 0 4px 10px rgba(255, 65, 108, 0.2); }
     
-    /* Dashboard Grid Layout */
     .grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 25px; }
     @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
     
-    /* Left Column: Wallet Balance Card (Clean White & Blue Accent) */
     .wallet-card { background: #ffffff; padding: 40px 20px; border-radius: 16px; border: 1px solid #e1e8ed; text-align: center; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; overflow: hidden; }
     .wallet-card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: linear-gradient(180deg, #007bff, #00c6ff); }
     .wallet-card i { font-size: 50px; color: #007bff; margin-bottom: 15px; }
     .wallet-card h3 { font-size: 12px; color: #6c757d; font-weight: 600; letter-spacing: 1px; margin-bottom: 8px; }
     .balance { font-family: 'Orbitron', sans-serif; font-size: 34px; font-weight: 800; color: #212529; }
     
-    /* Right Column: Deposit Section */
     .deposit-card { background: #ffffff; padding: 30px; border-radius: 16px; border: 1px solid #e1e8ed; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); }
     .deposit-card h2 { font-family: 'Orbitron', sans-serif; font-size: 20px; color: #007bff; margin-bottom: 20px; font-weight: 800; letter-spacing: 1px; }
     
-    /* Instruction Box (Light Blue Background) */
     .ezcash-instruction { background: #f0f7ff; border: 1px dashed #007bff; padding: 18px; border-radius: 8px; margin-bottom: 25px; display: flex; align-items: flex-start; gap: 15px; }
     .ezcash-instruction i { font-size: 24px; color: #007bff; margin-top: 3px; }
     .ezcash-details p { font-size: 13px; color: #495057; font-weight: 500; line-height: 1.6; }
     .ezcash-number { font-size: 19px; font-weight: 700; color: #007bff; letter-spacing: 1px; margin-top: 15px; background: rgba(0, 123, 255, 0.1); padding: 5px 12px; border-radius: 6px; display: inline-block; }
     
-    /* Form Styles */
     .form-group { margin-bottom: 20px; }
     label { font-size: 11px; color: #495057; display: block; margin-bottom: 8px; font-weight: 600; letter-spacing: 0.5px; }
     input { width: 100%; padding: 12px; background: #ffffff; border: 1px solid #ced4da; border-radius: 8px; color: #212529; font-weight: 600; font-size: 14px; transition: 0.3s; }
     input:focus { border-color: #007bff; outline: none; box-shadow: 0 0 8px rgba(0, 123, 255, 0.15); background: #ffffff; }
     
-    /* Custom File Upload Button (Light Style) */
     .file-upload-wrapper { position: relative; background: #f8f9fa; border: 1px dashed #ced4da; border-radius: 8px; padding: 20px; text-align: center; cursor: pointer; transition: 0.3s; }
     .file-upload-wrapper:hover { border-color: #007bff; background: rgba(0, 123, 255, 0.02); }
     .file-upload-wrapper i { font-size: 24px; color: #6c757d; margin-bottom: 8px; transition: 0.3s; }
@@ -61,8 +53,8 @@
     
     .submit-btn { width: 100%; padding: 14px; background: linear-gradient(45deg, #007bff, #00c6ff); border: none; border-radius: 8px; color: #fff; font-weight: 700; font-size: 14px; cursor: pointer; margin-top: 10px; transition: 0.3s; letter-spacing: 0.5px; }
     .submit-btn:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3); }
+    .submit-btn:disabled { background: #cccccc; cursor: not-allowed; transform: none; box-shadow: none; }
     
-    /* Alerts */
     .alert { padding: 12px; border-radius: 6px; font-size: 12px; font-weight: 500; text-align: center; margin-top: 15px; display: none; }
     .alert-error { background: #fff5f5; border: 1px solid #ff416c; color: #ff416c; }
     .alert-success { background: #f0fff4; border: 1px solid #28a745; color: #28a745; }
@@ -125,7 +117,7 @@
             </div>
           </div>
           
-          <button type="submit" class="submit-btn">SUBMIT PROOF FOR APPROVAL 🚀</button>
+          <button type="submit" id="submit-btn" class="submit-btn">SUBMIT PROOF FOR APPROVAL 🚀</button>
         </form>
         
         <!-- Status Messages -->
@@ -136,13 +128,14 @@
     </div>
   </div>
 
-  <!-- ================= FIREBASE CORE SDK & AUTH SDK ================= -->
+  <!-- ================= FIREBASE SDKs (AUTH, FIRESTORE, STORAGE) ================= -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
 
   <script>
-    // ⚠️ YOUR FIREBASE CONFIG HERE
-    // ⚠️ YOUR FIREBASE CONFIG HERE - UPDATED WITH YOUR REAL KEYS
+    // 🌍 Firebase Configuration
     const firebaseConfig = {
       apiKey: "AIzaSyDQzjYIoFl1uU0c24IkMFYKt9xsIjrlt3U",
       authDomain: "rickey-3c59e.firebaseapp.com",
@@ -154,14 +147,32 @@
 
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
+    const db = firebase.firestore();
+    const storage = firebase.storage();
 
     const errEl = document.getElementById('status-error');
     const succEl = document.getElementById('status-success');
+    const submitBtn = document.getElementById('submit-btn');
 
-    // 🔒 USER AUTH CHECK
+    let currentUserId = null;
+
+    // 🔒 USER AUTH CHECK & WALLET REALTIME SYNC
     auth.onAuthStateChanged((user) => {
       if (user) {
+        currentUserId = user.uid;
         document.getElementById('user-email-display').innerHTML = `<i class="fa-solid fa-user-circle" style="margin-right: 5px; color: #007bff;"></i> ${user.email}`;
+        
+        // Firestore එකෙන් User ගේ Balance එක Live බලාගන්න (Realtime Sync)
+        db.collection("users").doc(user.uid).onSnapshot((doc) => {
+          if (doc.exists && doc.data().balance !== undefined) {
+            document.getElementById('wallet-balance').innerText = `LKR ${parseFloat(doc.data().balance).toFixed(2)}`;
+          } else {
+            document.getElementById('wallet-balance').innerText = `LKR 0.00`;
+          }
+        }, (error) => {
+          console.error("Error fetching balance:", error);
+        });
+
       } else {
         window.location.href = "login.html";
       }
@@ -174,18 +185,66 @@
       document.getElementById('upload-icon').style.color = "#007bff";
     });
 
-    // 📥 DEPOSIT FORM SUBMISSION
+    // 📥 REAL DEPOSIT FORM SUBMISSION WITH FIREBASE
     document.getElementById('deposit-form').addEventListener('submit', (e) => {
       e.preventDefault();
+      
+      if (!currentUserId) {
+        alert("User not logged in!");
+        return;
+      }
+
       errEl.style.display = 'none';
       succEl.style.display = 'none';
-
-      succEl.style.display = 'block';
-      succEl.innerText = "💸 Proof submitted successfully! Admin will check and approve your funds soon.";
       
-      document.getElementById('deposit-form').reset();
-      document.getElementById('upload-text').innerText = "Click or Drag & Drop your Receipt Image";
-      document.getElementById('upload-icon').style.color = "#6c757d";
+      // Button එක Disable කරනවා Double Click කරලා Request දෙකක් යන එක නවත්තන්න
+      submitBtn.disabled = true;
+      submitBtn.innerText = "UPLOADING PROOF... ⏳";
+
+      const amount = parseFloat(document.getElementById('deposit-amount').value);
+      const txnId = document.getElementById('deposit-txnid').value.trim();
+      const file = document.getElementById('deposit-file').files[0];
+
+      // 1. Storage එකට Image එක Upload කරනවා (Unique Name එකක් විදිහට Time එක එකතු කරලා)
+      const fileExtension = file.name.split('.').pop();
+      const storageRef = storage.ref(`receipts/${currentUserId}_${Date.now()}.${fileExtension}`);
+
+      storageRef.put(file)
+        .then((snapshot) => {
+          // 2. Upload වුන Image එකේ Direct Link (URL) එක ගන්නවා
+          return storageRef.getDownloadURL();
+        })
+        .then((downloadURL) => {
+          // 3. Firestore එකේ "deposits" Collection එකට විස්තර සේව් කරනවා
+          return db.collection("deposits").add({
+            userId: currentUserId,
+            userEmail: auth.currentUser.email,
+            amount: amount,
+            txnId: txnId,
+            receiptUrl: downloadURL,
+            status: "pending", // Admin ට Approve කරන්න ලේසි වෙන්න ස්ටේටස් එක pending දානවා
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        })
+        .then(() => {
+          // සාර්ථකයි නම් Form එක Reset කරලා Message එක පෙන්වනවා
+          succEl.style.display = 'block';
+          succEl.innerText = "💸 Proof submitted successfully! Admin will check and approve your funds soon.";
+          
+          document.getElementById('deposit-form').reset();
+          document.getElementById('upload-text').innerText = "Click or Drag & Drop your Receipt Image";
+          document.getElementById('upload-icon').style.color = "#6c757d";
+        })
+        .catch((error) => {
+          console.error(error);
+          errEl.style.display = 'block';
+          errEl.innerText = "❌ Error: " + error.message;
+        })
+        .finally(() => {
+          // බටන් එක ආපහු සාමාන්‍ය තත්ත්වයට පත් කරනවා
+          submitBtn.disabled = false;
+          submitBtn.innerText = "SUBMIT PROOF FOR APPROVAL 🚀";
+        });
     });
 
     // 🚪 LOGOUT BUTTON LOGIC
