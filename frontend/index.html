@@ -1,28 +1,40 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | RICKEY STORE</title>
-    <!-- ඔයාගේ Store එකේ තියෙන ඒම Font එකම -->
+    <title>Account | RICKEY STORE</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body { margin: 0; font-family: 'Poppins', sans-serif; background: #0f0f1e; height: 100vh; display: flex; justify-content: center; align-items: center; }
-        .login-box { width: 90%; max-width: 380px; background: rgba(255,255,255,0.05); padding: 30px; border-radius: 20px; text-align: center; border: 1px solid rgba(255,255,255,0.1); }
-        .logo { font-family: 'Orbitron'; font-size: 28px; color: white; margin-bottom: 20px; }
-        input { width: 100%; padding: 12px; margin: 8px 0; border-radius: 10px; border: none; background: #1a1a2e; color: white; box-sizing: border-box; }
-        .btn { width: 100%; padding: 12px; margin-top: 10px; border-radius: 10px; border: none; cursor: pointer; font-weight: 600; }
-        .btn-main { background: #007bff; color: white; }
+        .auth-container { width: 90%; max-width: 400px; background: rgba(255,255,255,0.03); backdrop-filter: blur(20px); padding: 40px; border-radius: 25px; border: 1px solid rgba(255,255,255,0.1); text-align: center; }
+        .logo { font-family: 'Orbitron', sans-serif; font-size: 28px; color: white; margin-bottom: 25px; }
+        .logo span { color: #007bff; }
+        input { width: 100%; padding: 14px; margin: 8px 0; border-radius: 12px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: white; outline: none; box-sizing: border-box; }
+        .btn-group { display: flex; gap: 10px; margin-top: 15px; }
+        .btn { flex: 1; padding: 14px; border-radius: 12px; border: none; cursor: pointer; font-weight: 700; transition: 0.3s; }
+        .btn-login { background: #007bff; color: white; }
+        .btn-register { background: transparent; border: 1px solid #007bff; color: #007bff; }
+        .btn-google { width: 100%; margin-top: 15px; background: white; color: #333; padding: 14px; border-radius: 12px; border: none; font-weight: 600; cursor: pointer; }
+        .btn:hover { opacity: 0.8; }
     </style>
 </head>
 <body>
 
-<div class="login-box">
+<div class="auth-container">
     <div class="logo">RICKEY<span>STORE</span></div>
-    <input type="email" id="email" placeholder="Email">
+    <input type="email" id="email" placeholder="Email Address">
     <input type="password" id="password" placeholder="Password">
-    <button class="btn btn-main" onclick="handleLogin()">LOGIN</button>
+    
+    <div class="btn-group">
+        <button class="btn btn-login" onclick="login()">LOGIN</button>
+        <button class="btn btn-register" onclick="register()">REGISTER</button>
+    </div>
+    
+    <button class="btn btn-google" onclick="googleLogin()">
+        <i class="fa-brands fa-google"></i> Login with Google
+    </button>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -38,12 +50,26 @@
     };
     firebase.initializeApp(firebaseConfig);
 
-    function handleLogin() {
+    function login() {
         const e = document.getElementById('email').value;
         const p = document.getElementById('password').value;
         firebase.auth().signInWithEmailAndPassword(e, p)
-            .then(() => { window.location.href = "store.html"; })
-            .catch(err => { alert("Error: " + err.message); });
+            .then(() => window.location.href = "store.html")
+            .catch(err => alert(err.message));
+    }
+
+    function register() {
+        const e = document.getElementById('email').value;
+        const p = document.getElementById('password').value;
+        firebase.auth().createUserWithEmailAndPassword(e, p)
+            .then(() => alert("Account Created Successfully!"))
+            .catch(err => alert(err.message));
+    }
+
+    function googleLogin() {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        firebase.auth().signInWithPopup(provider)
+            .then(() => window.location.href = "store.html");
     }
 </script>
 </body>
