@@ -69,7 +69,7 @@
       <p class="switch-text">Don't have an account? <a href="#" onclick="toggleAuth(event, 'register')">Register Now</a></p>
     </form>
 
-    <!-- 2. REGISTER FORM (Hidden by Default) -->
+    <!-- 2. REGISTER FORM -->
     <form id="register-form" style="display: none;">
       <div class="form-group">
         <label>FULL NAME</label>
@@ -99,7 +99,7 @@
     <!-- 3. GOOGLE LOGIN BUTTON -->
     <div class="divider">OR</div>
     <button type="button" id="google-login-btn" class="google-btn">
-      <img src="https://fonts.gstatic.com/s/i/productlogos/googleg/v6/web-24dp/copy_v6_R_o_D_r_b_m_e_m_b_e_r_9_e_r.svg" alt="Google">
+      <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google">
       Continue with Google
     </button>
     
@@ -108,14 +108,12 @@
     <div id="global-success" class="success-msg"></div>
   </div>
 
-  <!-- ================= FIREBASE CORE SDK & AUTH SDK ================= -->
+  <!-- Firebase Core SDK & Auth SDK -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 
   <script>
-    // ⚠️ YOUR FIREBASE CONFIG HERE
-    // firebase.google.com එකෙන් ඔයාගේ ප්‍රොජෙක්ට් එකේ Config ටික අරන් මෙතනට පේස්ට් කරන්න:
-    // ⚠️ YOUR FIREBASE CONFIG HERE - UPDATED WITH YOUR REAL KEYS
+    // 🌍 Real Updated Firebase Config
     const firebaseConfig = {
       apiKey: "AIzaSyDQzjYIoFl1uU0c24IkMFYKt9xsIjrlt3U",
       authDomain: "rickey-3c59e.firebaseapp.com",
@@ -124,7 +122,8 @@
       messagingSenderId: "375211284684",
       appId: "1:375211284684:web:cb2faf2d708d53fe6e4a69"
     };
-    // Firebase Initialize කිරීම
+    
+    // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
 
@@ -136,7 +135,7 @@
       successEl.style.display = 'none';
     }
 
-    // Login සහ Register Forms මාරු කරන ලොජික් එක
+    // Toggle forms
     function toggleAuth(e, mode) {
       e.preventDefault();
       const loginForm = document.getElementById('login-form');
@@ -155,14 +154,40 @@
       }
     }
 
-    // 📩 1. EMAIL & PASSWORD - ACCOUNT REGISTER
+    // 🚪 දැනටමත් ලොග් වී ඇත්නම් Dashboard වෙත යැවීම
+    auth.onAuthStateChanged((user) => {
+      if (user && user.emailVerified) {
+        window.location.href = "dashboard.html";
+      }
+    });
+
+    // 🔄 Redirect වෙලා ආපු ගමන්ම Token චෙක් කරලා Dashboard එකට යැවීම
+    auth.getRedirectResult().then((result) => {
+      if (result.user) {
+        window.location.href = "dashboard.html";
+      }
+    }).catch((error) => {
+      console.error(error);
+      if(error.code !== "auth/redirect-cancelled-by-user") {
+        errorEl.style.display = 'block';
+        errorEl.innerText = "❌ " + error.message;
+      }
+    });
+
+    // 🌐 3. GOOGLE REDIRECT LOGIN (නවතම ක්‍රමය - Conflicting Popup එන්නේ නැත)
+    document.getElementById('google-login-btn').addEventListener('click', () => {
+      resetAlerts();
+      const provider = new firebase.auth.GoogleAuthProvider();
+      auth.signInWithRedirect(provider);
+    });
+
+    // 📩 1. EMAIL & PASSWORD - REGISTER
     document.getElementById('register-form').addEventListener('submit', (e) => {
       e.preventDefault();
       resetAlerts();
       
       const email = document.getElementById('reg-email').value.trim();
       const password = document.getElementById('reg-password').value;
-      const name = document.getElementById('reg-name').value.trim();
 
       if (password.length < 6) {
         errorEl.style.display = 'block';
@@ -172,13 +197,11 @@
 
       auth.createUserWithEmailAndPassword(email, password)
         .then((userCredential) => {
-          // සාර්ථකව එකවුන්ට් එක හැදුනට පස්සේ Verification Email එක යවනවා
           auth.currentUser.sendEmailVerification()
             .then(() => {
               successEl.style.display = 'block';
-              successEl.innerText = "🔥 Verification link sent! Please check your email inbox (and spam folder) to activate your account.";
+              successEl.innerText = "🔥 Verification link sent! Please check your email inbox to activate your account.";
               document.getElementById('register-form').reset();
-              setTimeout(() => toggleAuth(e, 'login'), 5000);
             });
         })
         .catch((error) => {
@@ -199,31 +222,13 @@
         .then((userCredential) => {
           const user = userCredential.user;
           
-          // 🚨 ඊමේල් එක Verify කරලා නැත්නම් ඇතුලට ගන්න බෑ
           if (!user.emailVerified) {
             errorEl.style.display = 'block';
-            errorEl.innerText = "⚠️ Your email is not verified yet! Please click the link sent to your email.";
+            errorEl.innerText = "⚠️ Your email is not verified yet! Please check your email inbox.";
             auth.signOut();
           } else {
-            // 🥳 සාර්ථකයි! යූසර්ව Dashboard එකට යවනවා
             window.location.href = "dashboard.html"; 
           }
-        })
-        .catch((error) => {
-          errorEl.style.display = 'block';
-          errorEl.innerText = "❌ " + error.message;
-        });
-    });
-
-    // 🌐 3. GOOGLE ONE-CLICK LOGIN
-    document.getElementById('google-login-btn').addEventListener('click', () => {
-      resetAlerts();
-      const provider = new firebase.auth.GoogleAuthProvider();
-
-      auth.signInWithPopup(provider)
-        .then((result) => {
-          // Google එකෙන් එන අය ඔටෝම Verify නිසා කෙලින්ම Dashboard යවනවා
-          window.location.href = "dashboard.html";
         })
         .catch((error) => {
           errorEl.style.display = 'block';
