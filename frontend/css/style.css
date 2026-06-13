@@ -188,7 +188,7 @@ header {
   margin: 0 auto;
 }
 
-/* 6. Product Cards */
+/* 6. Product Cards & Layout Configuration */
 .store-container {
   padding: 40px 8%;
 }
@@ -222,7 +222,7 @@ header {
   box-shadow: 0 15px 30px rgba(0, 123, 255, 0.08); /* ලස්සන හෙවනැල්ලක් එනවා */
 }
 
-/* 💎 [අලුතින් එකතු කළා]: දියමන්ති Store එකේ පෙන්වන Title එක සඳහා ස්ටයිල් */
+/* 💎 දියමන්ති Store එකේ පෙන්වන Title එක සඳහා ස්ටයිල් */
 .card-item-title {
   font-size: 15px !important;
   font-weight: 600 !important;
@@ -538,4 +538,57 @@ footer {
 .modal-overlay.active {
   opacity: 1;
   pointer-events: auto;
+}
+
+/* =======================================================
+   🔥 [අලුතින්ම එකතු කළා]: PRICE FILTER UI STYLING 
+   ======================================================= */
+/* Price Slider Line Setup */
+#price-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 5px;
+  border-radius: 5px;
+  background: #e9ecef;
+  outline: none;
+}
+
+/* Slider එක උඩ තියෙන පොඩි බෝලය (Thumb) */
+#price-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #007bff;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 123, 255, 0.4);
+  transition: transform 0.1s ease;
+}
+
+#price-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.25);
+}
+
+/* 📱 Mobile සහ Tablet සඳහා Responsive Layout එක (දකුණටම බේරෙන්න) */
+@media (max-width: 768px) {
+  .filter-section-row {
+    justify-content: flex-end !important; /* Phone වලදීත් මැදට එන්නේ නැතිව දකුණටම කරනවා */
+    padding: 0 5px !important;
+    margin-bottom: 20px !important;
+  }
+  
+  .price-filter-wrapper {
+    max-width: 200px !important; /* Phone එකේදී කොටුව හීනි (Compact) කරනවා */
+    padding: 10px 12px !important;
+    border-radius: 10px !important;
+  }
+
+  /* Phone එකේදී කොටුව ඇතුළේ Text සයිස් චුට්ටක් කුඩා කරනවා */
+  .price-filter-wrapper span {
+    font-size: 11px !important;
+  }
+  #price-value {
+    font-size: 12px !important;
+  }
 }
