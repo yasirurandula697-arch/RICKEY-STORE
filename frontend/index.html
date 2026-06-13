@@ -3,50 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login | RANU EDITZ</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <title>Login | RICKEY STORE</title>
+    <!-- ඔයාගේ ස්ටෝර් එකේ තියෙන Fonts සහ Icons පාවිච්චි කරා -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: 'Poppins', sans-serif; background: #f8f9fa; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .auth-card { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center; }
-        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 10px; box-sizing: border-box; }
-        .btn { width: 100%; padding: 12px; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; margin-top: 10px; transition: 0.3s; }
+        body { margin: 0; font-family: 'Poppins', sans-serif; background: #f8f9fa; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .login-card { background: white; padding: 40px; border-radius: 24px; box-shadow: 0 10px 40px rgba(0,0,0,0.08); width: 100%; max-width: 380px; text-align: center; border: 1px solid #e9ecef; }
+        .logo { font-family: 'Orbitron', sans-serif; font-size: 28px; font-weight: 900; color: #212529; margin-bottom: 30px; }
+        .logo span { color: #007bff; }
+        input { width: 100%; padding: 14px; margin: 10px 0; border: 1px solid #e9ecef; border-radius: 12px; font-size: 14px; box-sizing: border-box; background: #f8f9fa; transition: 0.3s; }
+        input:focus { border-color: #007bff; outline: none; background: white; }
+        .btn { width: 100%; padding: 14px; border: none; border-radius: 12px; cursor: pointer; font-weight: 700; margin-top: 10px; transition: 0.3s; font-size: 14px; }
         .btn-login { background: #007bff; color: white; }
-        .btn-google { background: #fff; border: 1px solid #ddd; color: #555; margin-top: 15px; }
-        .btn:hover { opacity: 0.9; transform: translateY(-2px); }
+        .btn-google { background: white; border: 1px solid #e9ecef; color: #495057; margin-top: 15px; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .footer-text { margin-top: 20px; font-size: 12px; color: #6c757d; }
     </style>
 </head>
 <body>
 
-<div class="auth-card">
-    <h2>Welcome to RANU EDITZ</h2>
+<div class="login-card">
+    <div class="logo">RICKEY<span>STORE</span></div>
     <input type="email" id="email" placeholder="Email Address">
     <input type="password" id="password" placeholder="Password">
-    <button class="btn btn-login" onclick="login()">Login</button>
-    <button class="btn" onclick="register()" style="background: #e9ecef;">Register</button>
-    <button class="btn btn-google" onclick="googleLogin()">Login with Google</button>
+    <button class="btn btn-login" onclick="login()">LOGIN TO ACCESS</button>
+    <button class="btn" onclick="register()" style="background: #e8f0fe; color: #007bff;">CREATE ACCOUNT</button>
+    <button class="btn btn-google" onclick="googleLogin()"><i class="fa-brands fa-google"></i> Login with Google</button>
+    <div class="footer-text">Protected by Firebase Security</div>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 <script>
-    const firebaseConfig = { /* ඔයාගේ Config එක මෙතනට දාන්න */ };
+    const firebaseConfig = { /* ඔයාගේ Config එක දාන්න */ };
     firebase.initializeApp(firebaseConfig);
 
     function login() {
         const e = document.getElementById('email').value;
         const p = document.getElementById('password').value;
-        firebase.auth().signInWithEmailAndPassword(e, p).then(() => window.location.href = "store.html");
+        firebase.auth().signInWithEmailAndPassword(e, p)
+            .then(() => window.location.href = "store.html")
+            .catch(err => alert(err.message));
     }
 
     function register() {
         const e = document.getElementById('email').value;
         const p = document.getElementById('password').value;
-        firebase.auth().createUserWithEmailAndPassword(e, p).then(() => alert("Registered!"));
+        firebase.auth().createUserWithEmailAndPassword(e, p)
+            .then(() => alert("Account Created! Now Login."))
+            .catch(err => alert(err.message));
     }
 
     function googleLogin() {
         const provider = new firebase.auth.GoogleAuthProvider();
-        firebase.auth().signInWithPopup(provider).then(() => window.location.href = "store.html");
+        firebase.auth().signInWithPopup(provider)
+            .then(() => window.location.href = "store.html");
     }
 </script>
 </body>
