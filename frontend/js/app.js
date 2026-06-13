@@ -54,24 +54,49 @@ async function fetchProducts(category = 'all') {
     const url = category === 'all' ? API_BASE_URL : `${API_BASE_URL}?category=${category}`;
     const response = await fetch(url);
     if (!response.ok) throw new Error("Fallback execution trigger");
-    const data = await response.json();
+    let data = await response.json();
     
-    allFetchedItems = data.length ? data : mockData;
+    // 💡 [සුපිරිම ආරක්ෂිත ක්‍රමය]: සර්වර් එකෙන් ඩේටා ආවත්, නැතත් MockData එකයි සර්වර් ඩේටායි දෙකම එකතු කරනවා
+    // එතකොට Database එකේ නැති වුණත් MockData එකේ තියෙන Gems ටික සයිට් එකට අනිවාර්යයෙන්ම එනවා!
+    if (data && data.length > 0) {
+      // සර්වර් එකෙන් ආපු ඩේටා වල gem_ කියලා ID එකක් තිබ්බොත් ඒකට isGems: true ඔටෝ දානවා
+      data = data.map(item => {
+        if (item._id && item._id.startsWith('gem_')) {
+          item.isGems = true;
+        }
+        return item;
+      });
+      
+      // සර්වර් එකෙන් ආපු ඩේටා ලිස්ට් එකට අපේ MockData එකේ තියෙන Gems ටිකත් බලෙන්ම එකතු කරනවා (ඩුප්ලිකේට් නොවී)
+      mockData.forEach(mockItem => {
+        if (!data.some(serverItem => serverItem._id === mockItem._id)) {
+          data.push(mockItem);
+        }
+      });
+      allFetchedItems = data;
+    } else {
+      allFetchedItems = mockData;
+    }
     
     if (category === 'all') {
-      const accountsOnly = allFetchedItems.filter(item => item.category !== 'diamonds');
+      const accountsOnly = allFetchedItems.filter(item => item.category !== 'diamonds' && item.category !== 'diamond');
       renderGrid(accountsOnly);
     } else {
-      const filtered = allFetchedItems.filter(item => item.category === category);
+      const filtered = allFetchedItems.filter(item => {
+        if (category === 'diamonds') {
+          return item.category === 'diamonds' || item.category === 'diamond';
+        }
+        return item.category === category;
+      });
       renderGrid(filtered);
     }
   } catch (err) {
     allFetchedItems = mockData; 
     if (category === 'all') {
-      const accountsOnly = mockData.filter(item => item.category !== 'diamonds');
+      const accountsOnly = mockData.filter(item => item.category !== 'diamonds' && item.category !== 'diamond');
       renderGrid(accountsOnly);
     } else {
-      const filtered = mockData.filter(item => item.category === category);
+      const filtered = mockData.filter(item => item.category === 'diamonds' || item.category === 'diamond');
       renderGrid(filtered);
     }
   }
