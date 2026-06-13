@@ -94,34 +94,59 @@ function createCardElement(item, grid) {
   grid.appendChild(card);
 }
 
-// FIREBASE AUTH SETUP
-const firebaseConfig = {
-    apiKey: "AIzaSyDQzjYIoFl1uU0c24IkMFYKt9xsIjrlt3U",
-    authDomain: "rickey-3c59e.firebaseapp.com",
-    projectId: "rickey-3c59e",
-    storageBucket: "rickey-3c59e.firebasestorage.app",
-    messagingSenderId: "375211284684",
-    appId: "1:375211284684:web:cb2faf2d708d53fe6e4a69"
-};
-const auth = firebase.auth();
 
-// EMAIL VERIFICATION LÒGIC
-async function adminLogin() {
-    const email = prompt("Enter Email:");
-    const password = prompt("Enter Password:");
-    try {
-        const userCredential = await auth.signInWithEmailAndPassword(email, password);
-        // මෙන්න මෙතන තියෙන්නේ Email Verification එක
-        if (!userCredential.user.emailVerified) {
-            alert("⚠️ ඔබේ ඊමේල් ලිපිනය තහවුරු (Verify) කර නැත. කරුණාකර ඔබගේ ඊමේල් එක පරීක්ෂා කරන්න.");
-            await auth.signOut();
-            return;
-        }
-        alert("Login සාර්ථකයි!");
-        localStorage.setItem("isAdminLoggedIn", "true");
-        location.reload();
-    } catch (error) { alert("Access Denied: " + error.message); }
-}
+    const firebaseConfig = {
+        apiKey: "AIzaSyDQzjYIoFl1uU0c24IkMFYKt9xsIjrlt3U",
+        authDomain: "rickey-3c59e.firebaseapp.com",
+        projectId: "rickey-3c59e",
+        storageBucket: "rickey-3c59e.firebasestorage.app",
+        messagingSenderId: "375211284684",
+        appId: "1:375211284684:web:cb2faf2d708d53fe6e4a69"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+
+    // 1. REGISTER (Email Verification පණිවිඩය යවනවා)
+    function register() {
+        const e = document.getElementById('email').value;
+        const p = document.getElementById('password').value;
+        
+        auth.createUserWithEmailAndPassword(e, p)
+            .then((userCredential) => {
+                // Verify ඊමේල් එක යවන්න
+                userCredential.user.sendEmailVerification()
+                    .then(() => {
+                        alert("Account සාර්ථකයි! ඔබේ ඊමේල් ලිපිනයට තහවුරු කිරීමේ (Verification) ලින්ක් එකක් එව්වා. කරුණාකර එය පරීක්ෂා කරන්න.");
+                    });
+            })
+            .catch(err => alert(err.message));
+    }
+
+    // 2. LOGIN (Verify වෙලාද බලනවා)
+    function login() {
+        const e = document.getElementById('email').value;
+        const p = document.getElementById('password').value;
+        
+        auth.signInWithEmailAndPassword(e, p)
+            .then((userCredential) => {
+                if (!userCredential.user.emailVerified) {
+                    alert("⚠️ අනතුරු ඇඟවීම: ඔබේ ඊමේල් එක තවමත් තහවුරු (Verify) කර නැත. කරුණාකර ඔබගේ ඊමේල් පණිවිඩ පරීක්ෂා කරන්න.");
+                    auth.signOut(); // Verify නැත්නම් ආපහු ලොග් අවුට් කරනවා
+                } else {
+                    window.location.href = "store.html";
+                }
+            })
+            .catch(err => alert(err.message));
+    }
+
+    // 3. GOOGLE LOGIN
+    function googleLogin() {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        auth.signInWithPopup(provider)
+            .then(() => window.location.href = "store.html")
+            .catch(err => alert(err.message));
+    }
+
 
 function adminLogout() { auth.signOut().then(() => { localStorage.removeItem("isAdminLoggedIn"); location.reload(); }); }
 
